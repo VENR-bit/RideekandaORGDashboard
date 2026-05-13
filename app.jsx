@@ -9,7 +9,7 @@ const { useState, useEffect, useRef, useMemo, useCallback } = React;
 // hand-picked earthy/saffron tones meant to harmonise with the
 // monastery's warm-deep backdrop.
 // ──────────────────────────────────────────────────────────────
-const RAW_TILES = [
+const DEFAULT_TILES = [
   // CENTER — the home / about / main site
   { id: 'home', label: 'Rideekanda', sub: 'rideekanda.org · main site',
     url: 'https://rideekanda.org', size: 178, ring: 0,
@@ -74,12 +74,13 @@ const RAW_TILES = [
   { id: 'photos2', label: 'Festival 2026', url: '#fest', size: 56, ring: 3,
     bg: '#382418', fg: '#ccab88', icon: 'image' },
 ];
+window.DEFAULT_TILES = DEFAULT_TILES;
 
-function buildLayout(density) {
+function buildLayout(tilesData, density) {
   const R1 = 240 * density;
   const R2 = 410 * density;
   const R3 = 540 * density;
-  const tiles = RAW_TILES.map(t => ({ ...t, x: 0, y: 0 }));
+  const tiles = tilesData.map(t => ({ ...t, x: 0, y: 0 }));
   const ring1 = tiles.filter(t => t.ring === 1);
   const ring2 = tiles.filter(t => t.ring === 2);
   const ring3 = tiles.filter(t => t.ring === 3);
@@ -189,9 +190,9 @@ const Tile = React.memo(function Tile({ tile, x, y, scale, opacity, isFocal, onP
 // Honeycomb stage — owns the pan state and dispatches drag /
 // click events. Math runs once per frame via panRef in render.
 // ──────────────────────────────────────────────────────────────
-function Honeycomb({ tweaks }) {
+function Honeycomb({ tweaks, tilesData, onAdminToggle }) {
   const stageRef = useRef(null);
-  const tiles = useMemo(() => buildLayout(tweaks.density), [tweaks.density]);
+  const tiles = useMemo(() => buildLayout(tilesData, tweaks.density), [tilesData, tweaks.density]);
   const { pan, setTarget, nudgeTarget, snapTo, panRef, targetRef } = useLerpedPan(0.16);
   const [dragging, setDragging] = useState(false);
 
@@ -199,6 +200,9 @@ function Honeycomb({ tweaks }) {
   const [focalId, setFocalIdState] = useState('home');
   const focalIdRef = useRef('home');
   const setFocalId = (id) => { focalIdRef.current = id; setFocalIdState(id); };
+
+  const onAdminToggleRef = useRef(onAdminToggle);
+  onAdminToggleRef.current = onAdminToggle;
 
   // Drag handling
   useEffect(() => {
@@ -239,10 +243,7 @@ function Honeycomb({ tweaks }) {
       if (!active) return;
       active = false;
       setDragging(false);
-      // If barely moved, this was a tap — find what was tapped via pointer-up handler on tile.
-      // If significantly moved, snap to nearest tile after release.
       if (movedDist > 14) {
-        // Find tile nearest to viewport center under the just-released pan
         const px = targetRef.current.x;
         const py = targetRef.current.y;
         let best = null, bestD = Infinity;
@@ -255,6 +256,31 @@ function Honeycomb({ tweaks }) {
         if (best) {
           targetRef.current = { x: -best.x, y: -best.y };
           setFocalId(best.id);
+        }
+      } else {
+        el.releasePointerCapture && pointerId != null && el.releasePointerCapture(pointerId);
+        const tapped = document.elementFromPoint(e.clientX, e.clientY);
+        const tileEl = tapped && tapped.closest('.tile');
+        if (tileEl) {
+          const hitId = tileEl.dataset.id;
+          const hit = tiles.find(t => t.id === hitId);
+          if (hit) {
+            const px = targetRef.current.x;
+            const py = targetRef.current.y;
+            const sx = hit.x + px;
+            const sy = hit.y + py;
+            const distFromCenter = Math.sqrt(sx * sx + sy * sy);
+            if (distFromCenter < 40) {
+              if (hit.id === 'admin' && onAdminToggleRef.current) {
+                onAdminToggleRef.current();
+              } else if (hit.url && !hit.url.startsWith('#')) {
+                window.open(hit.url, '_blank', 'noopener');
+              }
+            } else {
+              targetRef.current = { x: -hit.x, y: -hit.y };
+              setFocalId(hit.id);
+            }
+          }
         }
       }
     };
@@ -314,11 +340,13 @@ function Honeycomb({ tweaks }) {
     const sy = tile.y + targetRef.current.y;
     const dist = Math.sqrt(sx * sx + sy * sy);
     if (dist < 40) {
-      // Already focal — open the link (in new tab for real URLs)
+      if (tile.id === 'admin' && onAdminToggle) {
+        onAdminToggle();
+        return;
+      }
       if (tile.url && !tile.url.startsWith('#')) {
         window.open(tile.url, '_blank', 'noopener');
       } else {
-        // Hash links: small bounce animation feedback
         const el = e.currentTarget;
         el.animate(
           [{ transform: el.style.transform + ' translateZ(0)' },
@@ -431,7 +459,22 @@ function App() {
     "fisheye": true
   }/*EDITMODE-END*/);
 
-  // Apply palette to body classes / backdrop
+  const [tiles, tileActions] = useTiles();
+  const [adminMode, setAdminMode] = useState(false);
+
+  const handleAdminToggle = useCallback(() => {
+    if (adminMode) {
+      setAdminMode(false);
+      return;
+    }
+    const pin = prompt('Enter admin PIN:');
+    if (pin === window.ADMIN_PIN) {
+      setAdminMode(true);
+    } else if (pin !== null) {
+      alert('Incorrect PIN.');
+    }
+  }, [adminMode]);
+
   useEffect(() => {
     const body = document.body;
     const bd = document.getElementById('backdrop');
@@ -445,7 +488,9 @@ function App() {
 
   return (
     <>
-      <Honeycomb tweaks={t} />
+      <Honeycomb tweaks={t} tilesData={tiles} onAdminToggle={handleAdminToggle} />
+      <AdminPanel open={adminMode} onClose={() => setAdminMode(false)}
+                  tiles={tiles} actions={tileActions} />
       <TweaksPanel title="Tweaks">
         <TweakSection label="Palette" />
         <TweakRadio label="Mood" value={t.palette}
