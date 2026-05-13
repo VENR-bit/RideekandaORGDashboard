@@ -2,7 +2,7 @@
 // Admin panel for managing honeycomb tiles — add, remove, edit tiles and assign links.
 // Persists tile configuration to localStorage.
 
-const ADMIN_PIN = '1234';
+const ADMIN_PIN = '92424';
 const STORAGE_KEY = 'rideekanda-tiles';
 const RING_DEFAULTS = { 0: 178, 1: 132, 2: 82, 3: 56 };
 

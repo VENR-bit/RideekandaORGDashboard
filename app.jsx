@@ -414,11 +414,6 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle }) {
         ))}
       </div>
 
-      <FocalReadout tile={focalTile} isCenter={focalD < 60} onOpen={() => {
-        if (focalTile.url && !focalTile.url.startsWith('#')) {
-          window.open(focalTile.url, '_blank', 'noopener');
-        }
-      }} />
     </>
   );
 }

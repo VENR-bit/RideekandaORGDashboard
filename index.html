@@ -246,11 +246,14 @@
 
     /* Compass — small ring indicator bottom-left */
     .compass {
-      position: fixed; left: 28px; bottom: 22px;
+      position: fixed; left: 28px; bottom: 44px;
       width: 64px; height: 64px;
       z-index: 30;
       pointer-events: none;
       opacity: 0.85;
+    }
+    @media (max-width: 600px) {
+      .compass { display: none; }
     }
     .compass-ring {
       stroke: var(--ink-faint);
