@@ -155,6 +155,70 @@ const Icons = {
       <path d="M -6 4 C -8 -1, -3 -4, 0 -3 C 3 -4, 8 -1, 6 4 C 3 3, 0 5, 0 5 C 0 5, -3 3, -6 4 Z" fill="currentColor" fillOpacity="0.18"/>
     </svg>
   ),
+
+  instagram: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="-8" y="-8" width="16" height="16" rx="4.5"/>
+      <circle cx="0" cy="0" r="4"/>
+      <circle cx="5.5" cy="-5.5" r="1" fill="currentColor" stroke="none"/>
+    </svg>
+  ),
+
+  facebook: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M 2 -9 L 2 -5 L 5 -5 L 5 -1 L 2 -1 L 2 9"/>
+      <path d="M -2 -1 L 6 -1"/>
+      <path d="M 2 -5 C 2 -8, 5 -9, 7 -8"/>
+    </svg>
+  ),
+
+  settings: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="0" cy="0" r="3"/>
+      <path d="M 0 -6 L 0 -9"/>
+      <path d="M 0 6 L 0 9"/>
+      <path d="M -6 0 L -9 0"/>
+      <path d="M 6 0 L 9 0"/>
+      <path d="M -4.2 -4.2 L -6.4 -6.4"/>
+      <path d="M 4.2 4.2 L 6.4 6.4"/>
+      <path d="M 4.2 -4.2 L 6.4 -6.4"/>
+      <path d="M -4.2 4.2 L -6.4 6.4"/>
+    </svg>
+  ),
+
+  booking: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="-8" y="-6" width="16" height="15" rx="1.5"/>
+      <path d="M -8 0 L 8 0"/>
+      <path d="M -5 -9 L -5 -4"/>
+      <path d="M 5 -9 L 5 -4"/>
+      <path d="M -2 4 L 1 7 L 5 2" strokeWidth="1.6"/>
+    </svg>
+  ),
+
+  retreat: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="0" cy="-6" r="2" fill="currentColor" fillOpacity="0.3"/>
+      <path d="M 0 -4 L 0 2"/>
+      <path d="M -4 0 C -3 -1, -1 -2, 0 -1 C 1 -2, 3 -1, 4 0"/>
+      <path d="M -6 6 C -4 3, -2 2, 0 2 C 2 2, 4 3, 6 6"/>
+      <path d="M -3 6 L -5 3"/>
+      <path d="M 3 6 L 5 3"/>
+      <path d="M -8 6 L 8 6" strokeWidth="1"/>
+    </svg>
+  ),
+
+  programs: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="-8" y="-8" width="16" height="16" rx="1.5" fill="currentColor" fillOpacity="0.1"/>
+      <path d="M -4 -4 L 6 -4"/>
+      <path d="M -4 0 L 4 0"/>
+      <path d="M -4 4 L 6 4"/>
+      <circle cx="-6" cy="-4" r="1" fill="currentColor"/>
+      <circle cx="-6" cy="0" r="1" fill="currentColor"/>
+      <circle cx="-6" cy="4" r="1" fill="currentColor"/>
+    </svg>
+  ),
 };
 
 window.Icons = Icons;
