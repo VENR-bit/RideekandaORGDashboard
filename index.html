@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Rideekanda Forest Monastery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+Sinhala:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0d0a07;
+      --bg-mid: #181210;
+      --bg-glow: #3a2410;
+      --ink: #f3e8d0;
+      --ink-dim: #c9b896;
+      --ink-faint: #8a7a5e;
+      --saffron: #d99b4a;
+      --brick: #a8472a;
+      --gold: #e0b76a;
+      --moss: #6e8050;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      background: var(--bg-deep);
+      color: var(--ink);
+      font-family: 'Manrope', system-ui, sans-serif;
+      overflow: hidden;
+      overscroll-behavior: none;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #root { width: 100%; height: 100%; }
+
+    /* Backdrop: warm radial glow + deep forest base + faint grain */
+    .backdrop {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 50%, oklch(0.30 0.06 55 / 0.55), transparent 70%),
+        radial-gradient(ellipse 100% 80% at 50% 100%, oklch(0.22 0.03 45 / 0.5), transparent 70%),
+        linear-gradient(180deg, #0a0805 0%, #15100b 50%, #0c0907 100%);
+      pointer-events: none;
+    }
+    .backdrop.day {
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, oklch(0.96 0.04 80 / 0.6), transparent 70%),
+        linear-gradient(180deg, #f5ecd9 0%, #ede0c4 60%, #e2d2b0 100%);
+    }
+    .backdrop.midnight {
+      background:
+        radial-gradient(ellipse 55% 50% at 50% 50%, oklch(0.30 0.08 250 / 0.5), transparent 70%),
+        linear-gradient(180deg, #06080d 0%, #0c1220 50%, #050709 100%);
+    }
+    .grain {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.7'/></svg>");
+    }
+    /* Decorative mountain wash at bottom — sumi-e silhouette */
+    .horizon {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: 30vh;
+      pointer-events: none;
+      opacity: 0.18;
+      background:
+        radial-gradient(ellipse 80% 100% at 30% 100%, oklch(0.12 0.02 30) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 90% at 70% 100%, oklch(0.10 0.02 25) 0%, transparent 50%);
+    }
+
+    /* Header */
+    .chrome {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 26px 32px;
+      pointer-events: none;
+      z-index: 50;
+      font-feature-settings: "ss01" 1;
+    }
+    .chrome > * { pointer-events: auto; }
+    .brand {
+      display: flex; flex-direction: column; gap: 2px;
+      letter-spacing: 0.16em;
+    }
+    .brand .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+    }
+    .brand .name {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 22px;
+      color: var(--ink-dim);
+      letter-spacing: 0.04em;
+    }
+    .meta {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      line-height: 1.7;
+    }
+
+    /* Stage: where tiles live */
+    .stage {
+      position: absolute; inset: 0;
+      cursor: grab;
+      touch-action: none;
+    }
+    .stage.dragging { cursor: grabbing; }
+
+    /* Each tile is absolutely positioned from screen center */
+    .tile {
+      position: absolute;
+      left: 50%; top: 50%;
+      border-radius: 9999px;
+      display: grid; place-items: center;
+      will-change: transform, opacity;
+      transition: filter 0.4s ease, box-shadow 0.5s ease;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .tile-inner {
+      position: absolute; inset: 0;
+      border-radius: 9999px;
+      display: grid; place-items: center;
+      overflow: hidden;
+      background: var(--tile-bg, #2a1f15);
+      box-shadow:
+        inset 0 1px 0 rgba(255,235,200,0.08),
+        inset 0 -16px 24px rgba(0,0,0,0.35),
+        0 14px 30px rgba(0,0,0,0.35),
+        0 2px 4px rgba(0,0,0,0.25);
+      transition: box-shadow 0.5s ease;
+    }
+    .tile.focal .tile-inner {
+      box-shadow:
+        inset 0 1px 0 rgba(255,240,210,0.18),
+        inset 0 -18px 30px rgba(0,0,0,0.25),
+        0 18px 36px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(255,220,160,0.18),
+        0 0 40px 4px var(--halo, rgba(217,155,74,0.28));
+    }
+    /* Rim light */
+    .tile-rim {
+      position: absolute; inset: 0;
+      border-radius: 9999px;
+      pointer-events: none;
+      background: radial-gradient(circle at 30% 25%, rgba(255,240,210,0.14), transparent 45%);
+    }
+    /* Icon */
+    .tile-icon {
+      position: relative;
+      z-index: 2;
+      color: var(--tile-fg, var(--ink));
+      transition: color 0.3s ease;
+    }
+    /* Tile label that appears beneath when focal */
+    .tile-label {
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--ink-dim);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .tile.focal .tile-label { opacity: 1; }
+
+    /* Central focal readout */
+    .focal-readout {
+      position: fixed;
+      left: 50%; bottom: 14vh;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+      z-index: 40;
+      max-width: 80vw;
+    }
+    .focal-readout .kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 10px;
+    }
+    .focal-readout .title {
+      font-family: 'Cormorant', serif;
+      font-weight: 400;
+      font-size: 38px;
+      line-height: 1.05;
+      color: var(--ink);
+      letter-spacing: 0.005em;
+    }
+    .focal-readout .title em { font-style: italic; color: var(--gold); font-weight: 400; }
+    .focal-readout .sub {
+      margin-top: 6px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      color: var(--ink-dim);
+      letter-spacing: 0.02em;
+    }
+    .open-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 18px;
+      padding: 9px 16px 9px 18px;
+      border-radius: 999px;
+      background: rgba(217, 155, 74, 0.14);
+      border: 1px solid rgba(217, 155, 74, 0.35);
+      color: var(--gold);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      pointer-events: auto;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .open-pill:hover {
+      background: rgba(217, 155, 74, 0.24);
+      transform: translateY(-1px);
+    }
+    .open-pill svg { width: 12px; height: 12px; }
+
+    /* Hint bottom right */
+    .hint {
+      position: fixed;
+      bottom: 22px; right: 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      z-index: 30;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    .hint .key {
+      display: inline-block;
+      padding: 2px 6px;
+      border: 1px solid var(--ink-faint);
+      border-radius: 4px;
+      margin: 0 2px;
+      font-size: 9px;
+    }
+
+    /* Compass — small ring indicator bottom-left */
+    .compass {
+      position: fixed; left: 28px; bottom: 22px;
+      width: 64px; height: 64px;
+      z-index: 30;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .compass-ring {
+      stroke: var(--ink-faint);
+      stroke-width: 0.5;
+      fill: none;
+    }
+    .compass-dot { fill: var(--gold); }
+    .compass-tick { stroke: var(--ink-faint); stroke-width: 0.5; }
+
+    /* Day-mode adjustments */
+    body.day {
+      --ink: #2a1f12;
+      --ink-dim: #5c4a30;
+      --ink-faint: #9a8868;
+      --gold: #8a5a1a;
+    }
+
+    /* When tile is loading or initial */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .chrome, .hint, .compass, .focal-readout { animation: fadeUp 0.8s ease 0.2s both; }
+  </style>
+</head>
+<body>
+  <div class="backdrop" id="backdrop"></div>
+  <div class="grain"></div>
+  <div class="horizon"></div>
+
+  <div id="root"></div>
+
+  <div class="chrome">
+    <div class="brand">
+      <span class="eyebrow">රිදීකන්ද ආරණ්‍ය සේනාසනය</span>
+      <span class="name">Rideekanda Forest Monastery</span>
+    </div>
+    <div class="meta">
+      <div>Aranya · Forest Tradition</div>
+      <div style="opacity:0.6">SRI LANKA · ESTD. 2017</div>
+    </div>
+  </div>
+
+  <svg class="compass" viewBox="-32 -32 64 64">
+    <circle class="compass-ring" r="26"></circle>
+    <circle class="compass-ring" r="14"></circle>
+    <circle class="compass-ring" r="4"></circle>
+    <line class="compass-tick" x1="0" y1="-30" x2="0" y2="-26"></line>
+    <line class="compass-tick" x1="0" y1="26" x2="0" y2="30"></line>
+    <line class="compass-tick" x1="-30" y1="0" x2="-26" y2="0"></line>
+    <line class="compass-tick" x1="26" y1="0" x2="30" y2="0"></line>
+    <circle class="compass-dot" id="compass-dot" cx="0" cy="0" r="1.6"></circle>
+  </svg>
+
+  <div class="hint">
+    drag to wander · tap to center · double-tap to open
+  </div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="image-slot.js"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="icons.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
