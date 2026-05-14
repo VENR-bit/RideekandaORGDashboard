@@ -32,18 +32,26 @@ const DEFAULT_TILES = [
     bg: 'radial-gradient(circle at 30% 25%, #6a4e26 0%, #2e1f0c 85%)',
     halo: 'rgba(204, 160, 92, 0.32)', fg: '#f0e0bd', icon: 'list' },
 
-  { id: 'photos', label: 'Photo Gallery', sub: 'Photo Gallery from Google Maps',
-    url: 'https://www.google.com/maps/place/Rideekanda+Forest+Monastery/@7.5347744,80.5602435,3a,75y,90t/data=!3m8!1e2!3m6!1sCIABIhA1Q8HISsnKLMYykpW5UKMd!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAPNQkAGpbt4bdZXUYCUz_ItULuC8ahpDfQPTv5e7qD-oCYdvj1lvsfaUcVbEicsKVdXTKLp53c1Azjy2CVxB5rEcmdkAxlYZnMDMlZi1kM2Vt_u7bWROhJwp60bPgWfSH0DCwTf2t_CHEJFjjjg3%3Dw488-h298-k-no!7i7150!8i4364!4m19!1m9!3m8!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!2sRideekanda+Forest+Monastery!8m2!3d7.5347744!4d80.5602435!9m1!1b1!16s%2Fg%2F11h_3yttgb!3m8!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!8m2!3d7.5347744!4d80.5602435!10e5!14m1!1BCgIgAQ!16s%2Fg%2F11h_3yttgb?entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D',
-    size: 132, ring: 1,
-    bg: 'radial-gradient(circle at 30% 25%, #2a3624 0%, #141c0e 85%)',
-    halo: 'rgba(160, 180, 100, 0.32)', fg: '#dee0c0', icon: 'image' },
-
   { id: 'map', label: 'Map', sub: 'Google location on Rideekanda',
     url: 'https://maps.app.goo.gl/3Gb3nt8qaPqdSTgB9', size: 132, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #4a3a24 0%, #1e160c 85%)',
     halo: 'rgba(204, 160, 92, 0.32)', fg: '#e8d6b0', icon: 'pin' },
 
+  { id: 'retreat-program', label: 'Retreat Program', sub: 'Details of Ongoing Retreats',
+    url: 'https://www.rideekanda.com/retreat-center/', size: 132, ring: 1,
+    bg: 'radial-gradient(circle at 30% 25%, #7a3a1c 0%, #3a1808 85%)',
+    halo: 'rgba(217, 130, 74, 0.32)', fg: '#fbdcc0', icon: 'retreat' },
+
+  { id: 'monastery', label: 'Monastery', sub: 'About Monastery',
+    url: 'https://www.rideekanda.com/monastery/', size: 132, ring: 1,
+    bg: 'radial-gradient(circle at 30% 25%, #3a4a28 0%, #1a2210 85%)',
+    halo: 'rgba(140, 170, 90, 0.32)', fg: '#dce0c4', icon: 'tree' },
+
   // RING 2 — secondary links
+  { id: 'photos', label: 'Photo Gallery', sub: 'Photo Gallery from Google Maps',
+    url: 'https://www.google.com/maps/place/Rideekanda+Forest+Monastery/@7.5347744,80.5602435,3a,75y,90t/data=!3m8!1e2!3m6!1sCIABIhA1Q8HISsnKLMYykpW5UKMd!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAPNQkAGpbt4bdZXUYCUz_ItULuC8ahpDfQPTv5e7qD-oCYdvj1lvsfaUcVbEicsKVdXTKLp53c1Azjy2CVxB5rEcmdkAxlYZnMDMlZi1kM2Vt_u7bWROhJwp60bPgWfSH0DCwTf2t_CHEJFjjjg3%3Dw488-h298-k-no!7i7150!8i4364!4m19!1m9!3m8!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!2sRideekanda+Forest+Monastery!8m2!3d7.5347744!4d80.5602435!9m1!1b1!16s%2Fg%2F11h_3yttgb!3m8!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!8m2!3d7.5347744!4d80.5602435!10e5!14m1!1BCgIgAQ!16s%2Fg%2F11h_3yttgb?entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D',
+    size: 82, ring: 2,
+    bg: '#2a3624', fg: '#dee0c0', icon: 'image' },
   { id: 'contact', label: 'Contact', sub: 'Contact Us on Email | WhatsApp | Tel',
     url: 'https://www.rideekanda.com/contact/', size: 82, ring: 2,
     bg: '#2a261a', fg: '#d4c8a4', icon: 'mail' },
@@ -62,15 +70,15 @@ const DEFAULT_TILES = [
   { id: 'donate', label: 'Dāna | Donation', sub: 'Your contributions allow the monastery to center its programs and outreach',
     url: 'https://www.rideekanda.com/support/', size: 82, ring: 2,
     bg: '#5a2a18', fg: '#f0c8a8', icon: 'hands' },
+  { id: 'reviews', label: 'Reviews', sub: 'Reviews on Rideekanda',
+    url: 'https://www.google.com/maps/place/Rideekanda+Forest+Monastery/@7.5347744,80.5576632,17z/data=!4m14!1m5!8m4!1e1!2s111125857751127013353!3m1!1e1!3m7!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!8m2!3d7.5347744!4d80.5602435!9m1!1b1!16s%2Fg%2F11h_3yttgb?hl=en&entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D',
+    size: 82, ring: 2,
+    bg: '#3a3018', fg: '#e6c888', icon: 'star' },
 
   // RING 3 — tertiary / accent
   { id: 'daily-routine', label: 'Daily Routine', sub: 'Daily Routine of the Rideekanda',
     url: 'https://www.rideekanda.com/resources/Daily_Routine_Schedule.pdf', size: 56, ring: 3,
     bg: '#1f2a18', fg: '#b8c8a0', icon: 'tree' },
-  { id: 'reviews', label: 'Reviews', sub: 'Reviews on Rideekanda',
-    url: 'https://www.google.com/maps/place/Rideekanda+Forest+Monastery/@7.5347744,80.5576632,17z/data=!4m14!1m5!8m4!1e1!2s111125857751127013353!3m1!1e1!3m7!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!8m2!3d7.5347744!4d80.5602435!9m1!1b1!16s%2Fg%2F11h_3yttgb?hl=en&entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D',
-    size: 56, ring: 3,
-    bg: '#3a3018', fg: '#e6c888', icon: 'star' },
   { id: 'admin', label: 'Admin', sub: 'Admin Panel',
     url: 'https://rideekanda.org/admin.html', size: 56, ring: 3,
     bg: '#252028', fg: '#b0a8b0', icon: 'settings' },
@@ -415,7 +423,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
     if (onFocalChange) onFocalChange(focalTile, isFocalCenter);
   }, [focalTile.id, isFocalCenter]);
 
-  // Update compass dot
+  // Update compass dot + click to recenter
   useEffect(() => {
     const dot = document.getElementById('compass-dot');
     if (!dot) return;
@@ -423,6 +431,20 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
     dot.setAttribute('cx', String(clamp(-pan.x * k, -22, 22)));
     dot.setAttribute('cy', String(clamp(-pan.y * k, -22, 22)));
   }, [pan.x, pan.y]);
+
+  useEffect(() => {
+    const compass = document.querySelector('.compass');
+    if (!compass) return;
+    const onClick = () => {
+      const home = tiles.find(t => t.ring === 0) || tiles[0];
+      if (home) {
+        setTarget(-home.x, -home.y);
+        setFocalId(home.id);
+      }
+    };
+    compass.addEventListener('click', onClick);
+    return () => compass.removeEventListener('click', onClick);
+  }, [tiles, setTarget]);
 
   return (
     <>
