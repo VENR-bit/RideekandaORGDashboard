@@ -511,13 +511,31 @@ function App() {
   useEffect(() => {
     const body = document.body;
     const bd = document.getElementById('backdrop');
-    body.classList.toggle('day', t.palette === 'parchment');
+    const toggle = document.getElementById('theme-toggle');
+    const isDay = t.palette === 'parchment';
+    body.classList.toggle('day', isDay);
     if (bd) {
       bd.classList.remove('day', 'midnight');
-      if (t.palette === 'parchment') bd.classList.add('day');
+      if (isDay) bd.classList.add('day');
       if (t.palette === 'midnight') bd.classList.add('midnight');
     }
+    const toggleEl = document.getElementById('theme-toggle');
+    if (toggleEl) {
+      toggleEl.querySelector('.label').textContent = isDay ? 'Day' : 'Night';
+    }
   }, [t.palette]);
+
+  // Theme toggle button
+  useEffect(() => {
+    const toggleEl = document.getElementById('theme-toggle');
+    if (!toggleEl) return;
+    const onClick = () => {
+      const next = t.palette === 'parchment' ? 'monastery' : 'parchment';
+      setTweak('palette', next);
+    };
+    toggleEl.addEventListener('click', onClick);
+    return () => toggleEl.removeEventListener('click', onClick);
+  }, [t.palette, setTweak]);
 
   return (
     <>

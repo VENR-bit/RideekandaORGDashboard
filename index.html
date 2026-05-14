@@ -76,7 +76,7 @@
     .chrome {
       position: fixed; top: 0; left: 0; right: 0;
       display: flex; justify-content: center; align-items: center;
-      padding: 30px 32px;
+      padding: 38px 32px 20px;
       pointer-events: none;
       z-index: 50;
     }
@@ -229,6 +229,114 @@
       --ink-faint: #9a8868;
       --gold: #8a5a1a;
     }
+    body.day .grain { opacity: 0.03; }
+    body.day .horizon { opacity: 0.06; }
+    body.day .tile-inner {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        inset 0 -12px 20px rgba(0,0,0,0.2),
+        0 8px 24px rgba(0,0,0,0.12),
+        0 2px 6px rgba(0,0,0,0.08);
+    }
+    body.day .tile.focal .tile-inner {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.15),
+        inset 0 -14px 24px rgba(0,0,0,0.18),
+        0 12px 32px rgba(0,0,0,0.18),
+        0 0 0 1px rgba(120,100,60,0.15),
+        0 0 30px 2px rgba(140,110,50,0.12);
+    }
+    body.day .tile-rim {
+      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.18), transparent 45%);
+    }
+
+    /* Sun/Moon toggle pill */
+    .theme-toggle {
+      position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 60;
+      display: inline-flex; align-items: center; gap: 2px;
+      padding: 3px;
+      border: 1px solid rgba(255, 235, 200, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 235, 200, 0.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: pointer;
+      font: inherit;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    body.day .theme-toggle {
+      background: rgba(60, 38, 14, 0.06);
+      border: 1px solid rgba(60, 38, 14, 0.20);
+    }
+    /* Track */
+    .theme-toggle .knob {
+      position: relative;
+      width: 40px; height: 20px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #1b140d 0%, #0e0a07 100%);
+      transition: background 0.5s ease;
+      overflow: hidden;
+    }
+    body.day .theme-toggle .knob {
+      background: linear-gradient(180deg, #f7e9c8 0%, #e8d39d 100%);
+    }
+    /* Disc (moon ↔ sun) */
+    .theme-toggle .knob .indicator {
+      position: absolute; top: 2px; left: 2px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%,
+                  #f5d68a 0%, #c98a2a 65%, #6d4810 100%);
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.45),
+        0 0 10px rgba(245, 200, 110, 0.5);
+      transform: translateX(0);
+      transition:
+        transform 0.45s cubic-bezier(.4, 1.4, .5, 1),
+        background 0.5s ease,
+        box-shadow 0.5s ease;
+    }
+    body.day .theme-toggle .knob .indicator {
+      transform: translateX(20px);
+      background: radial-gradient(circle at 35% 30%,
+                  #fff7e0 0%, #f3d27a 60%, #b87b1e 100%);
+      box-shadow:
+        0 1px 2px rgba(80, 50, 10, 0.25),
+        0 0 12px rgba(255, 220, 150, 0.7);
+    }
+    /* Stars (night only) */
+    .theme-toggle .knob .stars {
+      position: absolute; inset: 0;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+    body.day .theme-toggle .knob .stars { opacity: 0; }
+    .theme-toggle .knob .stars i {
+      position: absolute;
+      width: 1px; height: 1px;
+      border-radius: 50%;
+      background: #f0d89a;
+      opacity: 0.85;
+    }
+    .theme-toggle .knob .stars i:nth-child(1) { top: 5px;  left: 23px; }
+    .theme-toggle .knob .stars i:nth-child(2) { top: 10px; left: 29px; }
+    .theme-toggle .knob .stars i:nth-child(3) { top: 14px; left: 26px; }
+    .theme-toggle .knob .stars i:nth-child(4) { top: 6px;  left: 33px; }
+    /* Label */
+    .theme-toggle .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0 8px 0 5px;
+      color: #8a7a5e;
+      white-space: nowrap;
+      transition: color 0.4s ease;
+    }
+    body.day .theme-toggle .label { color: #9a8460; }
+    @media (max-width: 600px) {
+      .theme-toggle { top: 6px; }
+    }
 
     /* When tile is loading or initial */
     @keyframes fadeUp {
@@ -251,6 +359,14 @@
       <span class="name">රිදීකන්ද ආරණ්‍ය සේනාසනය</span>
     </div>
   </div>
+
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+    <div class="knob">
+      <div class="stars"><i></i><i></i><i></i><i></i></div>
+      <div class="indicator"></div>
+    </div>
+    <span class="label">Night</span>
+  </button>
 
   <svg class="compass" viewBox="-32 -32 64 64">
     <circle class="compass-ring" r="26"></circle>
