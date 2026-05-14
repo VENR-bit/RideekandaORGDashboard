@@ -166,60 +166,20 @@
     }
     .tile.focal .tile-label { opacity: 1; }
 
-    /* Central focal readout */
-    .focal-readout {
+    /* Focal readout — just above hint */
+    .focal-bar {
       position: fixed;
-      top: 100px; right: 32px;
-      text-align: right;
-      pointer-events: none;
-      z-index: 40;
-      max-width: 320px;
-    }
-    .focal-readout .kicker {
+      bottom: 38px; left: 0; right: 0;
+      text-align: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.3em;
+      font-size: 8px;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--ink-faint);
-      margin-bottom: 10px;
+      z-index: 30;
+      pointer-events: none;
     }
-    .focal-readout .title {
-      font-family: 'Cormorant', serif;
-      font-weight: 400;
-      font-size: 38px;
-      line-height: 1.05;
-      color: var(--ink);
-      letter-spacing: 0.005em;
-    }
-    .focal-readout .title em { font-style: italic; color: var(--gold); font-weight: 400; }
-    .focal-readout .sub {
-      margin-top: 6px;
-      font-family: 'Manrope', sans-serif;
-      font-size: 13px;
-      color: var(--ink-dim);
-      letter-spacing: 0.02em;
-    }
-    .open-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 18px;
-      padding: 9px 16px 9px 18px;
-      border-radius: 999px;
-      background: rgba(217, 155, 74, 0.14);
-      border: 1px solid rgba(217, 155, 74, 0.35);
-      color: var(--gold);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      pointer-events: auto;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
-    .open-pill:hover {
-      background: rgba(217, 155, 74, 0.24);
-      transform: translateY(-1px);
-    }
-    .open-pill svg { width: 12px; height: 12px; }
+    .focal-sep { margin: 0 4px; }
 
     /* Hint bottom center */
     .hint {
@@ -244,16 +204,14 @@
       font-size: 9px;
     }
 
-    /* Compass — small ring indicator bottom-left */
+    /* Compass — centered above focal readout */
     .compass {
-      position: fixed; left: 28px; bottom: 44px;
-      width: 64px; height: 64px;
+      position: fixed; left: 0; right: 0; bottom: 52px;
+      margin: 0 auto;
+      width: 48px; height: 48px;
       z-index: 30;
       pointer-events: none;
-      opacity: 0.85;
-    }
-    @media (max-width: 600px) {
-      .compass { display: none; }
+      opacity: 0.7;
     }
     .compass-ring {
       stroke: var(--ink-faint);
@@ -276,7 +234,7 @@
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .chrome, .hint, .compass, .focal-readout { animation: fadeUp 0.8s ease 0.2s both; }
+    .chrome, .hint, .compass, .focal-bar { animation: fadeUp 0.8s ease 0.2s both; }
   </style>
 </head>
 <body>
@@ -289,6 +247,7 @@
   <div class="chrome">
     <div class="brand">
       <span class="name">Rideekanda Forest Monastery</span>
+      <span class="name">රිදීකන්ද ආරණ්‍ය සේනාසනය</span>
     </div>
   </div>
 

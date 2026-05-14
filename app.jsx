@@ -190,7 +190,7 @@ const Tile = React.memo(function Tile({ tile, x, y, scale, opacity, isFocal, onP
 // Honeycomb stage — owns the pan state and dispatches drag /
 // click events. Math runs once per frame via panRef in render.
 // ──────────────────────────────────────────────────────────────
-function Honeycomb({ tweaks, tilesData, onAdminToggle }) {
+function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
   const stageRef = useRef(null);
   const tiles = useMemo(() => buildLayout(tilesData, tweaks.density), [tilesData, tweaks.density]);
   const { pan, setTarget, nudgeTarget, snapTo, panRef, targetRef } = useLerpedPan(0.16);
@@ -387,6 +387,11 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle }) {
     if (computed[i].dist < focalD) { focalD = computed[i].dist; focalIdx = i; }
   }
   const focalTile = computed[focalIdx].tile;
+  const isFocalCenter = focalD < 60;
+
+  useEffect(() => {
+    if (onFocalChange) onFocalChange(focalTile, isFocalCenter);
+  }, [focalTile.id, isFocalCenter]);
 
   // Update compass dot
   useEffect(() => {
@@ -418,27 +423,12 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle }) {
   );
 }
 
-// ──────────────────────────────────────────────────────────────
-// Focal readout — large title + open pill, anchored bottom-center.
-// ──────────────────────────────────────────────────────────────
-function FocalReadout({ tile, isCenter, onOpen }) {
-  const isHome = tile.id === 'home';
+function FocalReadout({ tile, isCenter }) {
+  if (!tile) return null;
   return (
-    <div className="focal-readout" style={{ opacity: isCenter ? 1 : 0.35, transition: 'opacity 0.4s ease' }}>
-      <div className="kicker">{isHome ? 'රිදීකන්ද ආරණ්‍ය සේනාසනය' : 'destination'}</div>
-      <div className="title">
-        {isHome ? <><em>Rideekanda</em> Forest Monastery</> : tile.label}
-      </div>
-      {tile.sub && <div className="sub">{tile.sub}</div>}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <button className="open-pill" onClick={onOpen}>
-          {tile.url && !tile.url.startsWith('#') ? 'Open' : 'Coming soon'}
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-            <path d="M 2 6 L 10 6" />
-            <path d="M 7 3 L 10 6 L 7 9" />
-          </svg>
-        </button>
-      </div>
+    <div className="focal-bar" style={{ opacity: isCenter ? 1 : 0.4, transition: 'opacity 0.4s ease' }}>
+      <span>{tile.label}</span>
+      {tile.sub && <><span className="focal-sep">·</span><span>{tile.sub}</span></>}
     </div>
   );
 }
@@ -456,6 +446,10 @@ function App() {
 
   const [tiles, tileActions] = useTiles();
   const [adminMode, setAdminMode] = useState(false);
+  const [focal, setFocal] = useState({ tile: null, isCenter: false });
+  const handleFocalChange = useCallback((tile, isCenter) => {
+    setFocal({ tile, isCenter });
+  }, []);
 
   const handleAdminToggle = useCallback(() => {
     if (adminMode) {
@@ -483,7 +477,8 @@ function App() {
 
   return (
     <>
-      <Honeycomb tweaks={t} tilesData={tiles} onAdminToggle={handleAdminToggle} />
+      <Honeycomb tweaks={t} tilesData={tiles} onAdminToggle={handleAdminToggle} onFocalChange={handleFocalChange} />
+      <FocalReadout tile={focal.tile} isCenter={focal.isCenter} />
       <AdminPanel open={adminMode} onClose={() => setAdminMode(false)}
                   tiles={tiles} actions={tileActions} />
       <TweaksPanel title="Tweaks">
