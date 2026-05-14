@@ -63,7 +63,7 @@ const DEFAULT_TILES = [
     bg: '#4a3818', fg: '#ecd8a8', icon: 'scroll' },
   { id: 'suttas-si', label: 'සුත්‍ර පිටකය', sub: 'සුත්‍ර පිටකය සිංහලෙන්',
     url: 'https://pitaka.lk/main/', size: 82, ring: 2,
-    bg: '#3a3018', fg: '#e6d4a8', icon: 'scroll' },
+    bg: '#3a3018', fg: '#e6d4a8', icon: 'suttaPitaka' },
   { id: 'newsletter', label: 'Newsletter', sub: 'News and Events of Rideekanda',
     url: 'https://www.rideekanda.com/news-and-events/', size: 82, ring: 2,
     bg: '#2a2628', fg: '#d4ccc8', icon: 'feather' },
@@ -78,7 +78,7 @@ const DEFAULT_TILES = [
   // RING 3 — tertiary / accent
   { id: 'daily-routine', label: 'Daily Routine', sub: 'Daily Routine of the Rideekanda',
     url: 'https://www.rideekanda.com/resources/Daily_Routine_Schedule.pdf', size: 56, ring: 3,
-    bg: '#1f2a18', fg: '#b8c8a0', icon: 'tree' },
+    bg: '#1f2a18', fg: '#b8c8a0', icon: 'dailyRoutine' },
   { id: 'admin', label: 'Admin', sub: 'Admin Panel',
     url: 'https://rideekanda.org/admin.html', size: 56, ring: 3,
     bg: '#252028', fg: '#b0a8b0', icon: 'settings' },
