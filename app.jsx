@@ -402,7 +402,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
     const dist = Math.sqrt(sx * sx + sy * sy);
     const t01 = clamp(dist / maxDist, 0, 1);
     const eased = smoothstep(t01);
-    const scale = lerp(1, minScale, eased) * (t.ring === 0 ? 1 : 1);
+    const scale = lerp(1, minScale, eased);
     // Radial inward pull at the edges — fisheye
     const pull = tweaks.fisheye ? eased * 0.18 : 0;
     const x = sx * (1 - pull);
