@@ -231,6 +231,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
     let lastX = 0, lastY = 0;
     let movedDist = 0;
     let pointerId = null;
+    let focalAtDown = null;
 
     const onDown = (e) => {
       if (e.button !== undefined && e.button !== 0) return;
@@ -238,6 +239,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
       pointerId = e.pointerId;
       lastX = e.clientX; lastY = e.clientY;
       movedDist = 0;
+      focalAtDown = focalIdRef.current;
       setDragging(true);
       el.setPointerCapture && el.setPointerCapture(e.pointerId);
     };
@@ -284,12 +286,13 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
           const hitId = tileEl.dataset.id;
           const hit = tiles.find(t => t.id === hitId);
           if (hit) {
+            const wasFocal = (hitId === focalAtDown);
             const px = targetRef.current.x;
             const py = targetRef.current.y;
             const sx = hit.x + px;
             const sy = hit.y + py;
             const distFromCenter = Math.sqrt(sx * sx + sy * sy);
-            if (distFromCenter < 40) {
+            if (wasFocal && distFromCenter < 40) {
               if (hit.id === 'admin' && onAdminToggleRef.current) {
                 onAdminToggleRef.current();
               } else if (hit.url && !hit.url.startsWith('#')) {
@@ -351,14 +354,14 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
   }, [nudgeTarget, setTarget, tiles]);
 
   // Tile pointer-up: pan to it on tap; if already focal, open
+  // This handler is mostly a fallback for desktop; the stage onUp handles most taps.
   const handleTilePointer = useCallback((e, tile) => {
-    // Distinguish tap from drag: if the stage already saw significant movement, the global
-    // pointerup handler snaps to nearest and we don't want this to fire too.
-    // We compare current screen pos of the tile to viewport center.
+    // Only open if this tile was already the focal tile before interaction
     const sx = tile.x + targetRef.current.x;
     const sy = tile.y + targetRef.current.y;
     const dist = Math.sqrt(sx * sx + sy * sy);
-    if (dist < 40) {
+    const wasFocal = (tile.id === focalIdRef.current);
+    if (wasFocal && dist < 40) {
       if (tile.id === 'admin' && onAdminToggle) {
         onAdminToggle();
         return;
