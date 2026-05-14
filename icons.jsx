@@ -219,6 +219,18 @@ const Icons = {
       <circle cx="-6" cy="4" r="1" fill="currentColor"/>
     </svg>
   ),
+
+  star: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M 0 -9 L 2.5 -3 L 9 -3 L 4 1.5 L 5.8 8 L 0 4.5 L -5.8 8 L -4 1.5 L -9 -3 L -2.5 -3 Z" fill="currentColor" fillOpacity="0.2"/>
+    </svg>
+  ),
+
+  google: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M 8 0 L 1 0 M 5 -3 C 3 -6, -3 -8, -6 -4 C -9 0, -7 6, -2 7 C 2 8, 6 6, 7 3"/>
+    </svg>
+  ),
 };
 
 window.Icons = Icons;
