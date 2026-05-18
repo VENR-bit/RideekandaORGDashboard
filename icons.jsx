@@ -190,6 +190,7 @@ const Icons = {
   ),
 
   google: svgIcon('icon-google.svg', 'Google'),
+  threeStory: svgIcon('icon-threestory.svg', 'ThreeStory Building'),
 };
 
 window.Icons = Icons;
