@@ -75,39 +75,23 @@
     /* Header */
     .chrome {
       position: fixed; top: 0; left: 0; right: 0;
-      display: flex; justify-content: space-between; align-items: flex-start;
-      padding: 26px 32px;
+      display: flex; justify-content: center; align-items: center;
+      padding: 38px 32px 20px;
       pointer-events: none;
       z-index: 50;
-      font-feature-settings: "ss01" 1;
     }
     .chrome > * { pointer-events: auto; }
     .brand {
-      display: flex; flex-direction: column; gap: 2px;
-      letter-spacing: 0.16em;
-    }
-    .brand .eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--ink-faint);
-      text-transform: uppercase;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
     }
     .brand .name {
-      font-family: 'Cormorant', serif;
-      font-style: italic;
-      font-weight: 400;
-      font-size: 22px;
-      color: var(--ink-dim);
-      letter-spacing: 0.04em;
-    }
-    .meta {
-      text-align: right;
       font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
       font-size: 10px;
       color: var(--ink-faint);
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
-      line-height: 1.7;
+      text-align: center;
     }
 
     /* Stage: where tiles live */
@@ -164,86 +148,46 @@
       color: var(--tile-fg, var(--ink));
       transition: color 0.3s ease;
     }
-    /* Tile label that appears beneath when focal */
+    /* Tile label beneath */
     .tile-label {
       position: absolute;
-      top: calc(100% + 14px);
+      top: calc(100% + 6px);
       left: 50%;
       transform: translateX(-50%);
       white-space: nowrap;
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.18em;
       color: var(--ink-dim);
-      opacity: 0;
+      opacity: 0.7;
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
     .tile.focal .tile-label { opacity: 1; }
 
-    /* Central focal readout */
-    .focal-readout {
+    /* Focal readout — just above hint */
+    .focal-bar {
       position: fixed;
-      left: 50%; bottom: 14vh;
-      transform: translateX(-50%);
+      bottom: 12px; left: 0; right: 0;
       text-align: center;
-      pointer-events: none;
-      z-index: 40;
-      max-width: 80vw;
-    }
-    .focal-readout .kicker {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.3em;
+      font-size: 8px;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--ink-faint);
-      margin-bottom: 10px;
+      z-index: 30;
+      pointer-events: none;
     }
-    .focal-readout .title {
-      font-family: 'Cormorant', serif;
-      font-weight: 400;
-      font-size: 38px;
-      line-height: 1.05;
-      color: var(--ink);
-      letter-spacing: 0.005em;
-    }
-    .focal-readout .title em { font-style: italic; color: var(--gold); font-weight: 400; }
-    .focal-readout .sub {
-      margin-top: 6px;
-      font-family: 'Manrope', sans-serif;
-      font-size: 13px;
-      color: var(--ink-dim);
-      letter-spacing: 0.02em;
-    }
-    .open-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 18px;
-      padding: 9px 16px 9px 18px;
-      border-radius: 999px;
-      background: rgba(217, 155, 74, 0.14);
-      border: 1px solid rgba(217, 155, 74, 0.35);
-      color: var(--gold);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      pointer-events: auto;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
-    .open-pill:hover {
-      background: rgba(217, 155, 74, 0.24);
-      transform: translateY(-1px);
-    }
-    .open-pill svg { width: 12px; height: 12px; }
+    .focal-sep { margin: 0 4px; }
 
-    /* Hint bottom right */
+    /* Hint bottom center */
     .hint {
       position: fixed;
-      bottom: 22px; right: 28px;
+      bottom: 22px; left: 0; right: 0;
+      text-align: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
+      font-size: 8px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--ink-faint);
@@ -260,13 +204,15 @@
       font-size: 9px;
     }
 
-    /* Compass — small ring indicator bottom-left */
+    /* Compass — centered above focal readout */
     .compass {
-      position: fixed; left: 28px; bottom: 22px;
-      width: 64px; height: 64px;
+      position: fixed; left: 0; right: 0; bottom: 42px;
+      margin: 0 auto;
+      width: 48px; height: 48px;
       z-index: 30;
-      pointer-events: none;
-      opacity: 0.85;
+      pointer-events: auto;
+      cursor: pointer;
+      opacity: 0.7;
     }
     .compass-ring {
       stroke: var(--ink-faint);
@@ -283,13 +229,121 @@
       --ink-faint: #9a8868;
       --gold: #8a5a1a;
     }
+    body.day .grain { opacity: 0.03; }
+    body.day .horizon { opacity: 0.06; }
+    body.day .tile-inner {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        inset 0 -12px 20px rgba(0,0,0,0.2),
+        0 8px 24px rgba(0,0,0,0.12),
+        0 2px 6px rgba(0,0,0,0.08);
+    }
+    body.day .tile.focal .tile-inner {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.15),
+        inset 0 -14px 24px rgba(0,0,0,0.18),
+        0 12px 32px rgba(0,0,0,0.18),
+        0 0 0 1px rgba(120,100,60,0.15),
+        0 0 30px 2px rgba(140,110,50,0.12);
+    }
+    body.day .tile-rim {
+      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.18), transparent 45%);
+    }
+
+    /* Sun/Moon toggle pill */
+    .theme-toggle {
+      position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 60;
+      display: inline-flex; align-items: center; gap: 2px;
+      padding: 3px;
+      border: 1px solid rgba(255, 235, 200, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 235, 200, 0.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: pointer;
+      font: inherit;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    body.day .theme-toggle {
+      background: rgba(60, 38, 14, 0.06);
+      border: 1px solid rgba(60, 38, 14, 0.20);
+    }
+    /* Track */
+    .theme-toggle .knob {
+      position: relative;
+      width: 40px; height: 20px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #1b140d 0%, #0e0a07 100%);
+      transition: background 0.5s ease;
+      overflow: hidden;
+    }
+    body.day .theme-toggle .knob {
+      background: linear-gradient(180deg, #f7e9c8 0%, #e8d39d 100%);
+    }
+    /* Disc (moon ↔ sun) */
+    .theme-toggle .knob .indicator {
+      position: absolute; top: 2px; left: 2px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%,
+                  #f5d68a 0%, #c98a2a 65%, #6d4810 100%);
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.45),
+        0 0 10px rgba(245, 200, 110, 0.5);
+      transform: translateX(0);
+      transition:
+        transform 0.45s cubic-bezier(.4, 1.4, .5, 1),
+        background 0.5s ease,
+        box-shadow 0.5s ease;
+    }
+    body.day .theme-toggle .knob .indicator {
+      transform: translateX(20px);
+      background: radial-gradient(circle at 35% 30%,
+                  #fff7e0 0%, #f3d27a 60%, #b87b1e 100%);
+      box-shadow:
+        0 1px 2px rgba(80, 50, 10, 0.25),
+        0 0 12px rgba(255, 220, 150, 0.7);
+    }
+    /* Stars (night only) */
+    .theme-toggle .knob .stars {
+      position: absolute; inset: 0;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+    body.day .theme-toggle .knob .stars { opacity: 0; }
+    .theme-toggle .knob .stars i {
+      position: absolute;
+      width: 1px; height: 1px;
+      border-radius: 50%;
+      background: #f0d89a;
+      opacity: 0.85;
+    }
+    .theme-toggle .knob .stars i:nth-child(1) { top: 5px;  left: 23px; }
+    .theme-toggle .knob .stars i:nth-child(2) { top: 10px; left: 29px; }
+    .theme-toggle .knob .stars i:nth-child(3) { top: 14px; left: 26px; }
+    .theme-toggle .knob .stars i:nth-child(4) { top: 6px;  left: 33px; }
+    /* Label */
+    .theme-toggle .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0 8px 0 5px;
+      color: #8a7a5e;
+      white-space: nowrap;
+      transition: color 0.4s ease;
+    }
+    body.day .theme-toggle .label { color: #9a8460; }
+    @media (max-width: 600px) {
+      .theme-toggle { top: 6px; }
+    }
 
     /* When tile is loading or initial */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .chrome, .hint, .compass, .focal-readout { animation: fadeUp 0.8s ease 0.2s both; }
+    .chrome, .hint, .compass, .focal-bar { animation: fadeUp 0.8s ease 0.2s both; }
   </style>
 </head>
 <body>
@@ -301,14 +355,18 @@
 
   <div class="chrome">
     <div class="brand">
-      <span class="eyebrow">රිදීකන්ද ආරණ්‍ය සේනාසනය</span>
       <span class="name">Rideekanda Forest Monastery</span>
-    </div>
-    <div class="meta">
-      <div>Aranya · Forest Tradition</div>
-      <div style="opacity:0.6">SRI LANKA · ESTD. 2017</div>
+      <span class="name">රිදීකන්ද ආරණ්‍ය සේනාසනය</span>
     </div>
   </div>
+
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+    <div class="knob">
+      <div class="stars"><i></i><i></i><i></i><i></i></div>
+      <div class="indicator"></div>
+    </div>
+    <span class="label">Night</span>
+  </button>
 
   <svg class="compass" viewBox="-32 -32 64 64">
     <circle class="compass-ring" r="26"></circle>
@@ -321,9 +379,6 @@
     <circle class="compass-dot" id="compass-dot" cx="0" cy="0" r="1.6"></circle>
   </svg>
 
-  <div class="hint">
-    drag to wander · tap to center · double-tap to open
-  </div>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -331,6 +386,7 @@
   <script src="image-slot.js"></script>
   <script type="text/babel" src="tweaks-panel.jsx"></script>
   <script type="text/babel" src="icons.jsx"></script>
+  <script type="text/babel" src="admin-panel.jsx"></script>
   <script type="text/babel" src="app.jsx"></script>
 </body>
 </html>

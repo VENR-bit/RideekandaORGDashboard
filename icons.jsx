@@ -1,6 +1,22 @@
 // Small set of SVG glyph icons used inside tiles.
 // All sized via the `size` prop, single-stroke or filled with currentColor.
 
+const svgIcon = (src, alt, scale=1.1) => ({size=28}) => (
+  <img
+    src={src}
+    alt={alt}
+    draggable="false"
+    style={{
+      width: size * scale,
+      height: 'auto',
+      display: 'block',
+      filter: 'brightness(0) invert(1) opacity(0.85) drop-shadow(0 1px 3px rgba(0,0,0,0.3))',
+      pointerEvents: 'none',
+      userSelect: 'none',
+    }}
+  />
+);
+
 const Icons = {
   // Official Rideekanda monastery logo for the center tile
   home: ({size=44}) => (
@@ -25,16 +41,7 @@ const Icons = {
     </svg>
   ),
 
-  calendar: ({size=32}) => (
-    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-      <rect x="-9" y="-7" width="18" height="14" rx="1.5"/>
-      <path d="M -9 -2 L 9 -2"/>
-      <path d="M -5 -10 L -5 -5"/>
-      <path d="M 5 -10 L 5 -5"/>
-      <circle cx="-3" cy="3" r="1" fill="currentColor"/>
-      <circle cx="3" cy="3" r="1" fill="currentColor"/>
-    </svg>
-  ),
+  calendar: svgIcon('icon-retreat-booking.svg', 'Retreat Booking'),
 
   book: ({size=32}) => (
     <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
@@ -54,14 +61,7 @@ const Icons = {
     </svg>
   ),
 
-  lotus: ({size=32}) => (
-    <svg width={size} height={size} viewBox="-14 -14 28 28" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round">
-      <path d="M 0 8 C -10 5, -10 -4, 0 -8 C 10 -4, 10 5, 0 8 Z" fill="currentColor" fillOpacity="0.16"/>
-      <path d="M 0 8 C -6 3, -7 -3, -3 -8"/>
-      <path d="M 0 8 C 6 3, 7 -3, 3 -8"/>
-      <path d="M 0 8 L 0 -10"/>
-    </svg>
-  ),
+  lotus: svgIcon('icon-dhamma-talks.svg', 'Dhamma Talks'),
 
   wave: ({size=28}) => (
     <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
@@ -86,14 +86,7 @@ const Icons = {
     </svg>
   ),
 
-  hands: ({size=28}) => (
-    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M -8 4 L -8 -3 L -4 -7 L -4 0"/>
-      <path d="M 8 4 L 8 -3 L 4 -7 L 4 0"/>
-      <path d="M -8 4 C -4 8, 4 8, 8 4"/>
-      <circle cx="0" cy="-6" r="2.4" fill="currentColor" fillOpacity="0.4"/>
-    </svg>
-  ),
+  hands: svgIcon('icon-donation.svg', 'Donation'),
 
   broadcast: ({size=28}) => (
     <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
@@ -126,20 +119,10 @@ const Icons = {
     </svg>
   ),
 
-  scroll: ({size=28}) => (
-    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M -8 -7 C -6 -7, -6 -5, -8 -5 L -8 6 C -8 7, -7 8, -6 8 L 6 8 C 8 8, 8 6, 8 6 L 8 -5 C 6 -5, 6 -7, 8 -7 Z" fill="currentColor" fillOpacity="0.14"/>
-      <path d="M -4 -2 L 4 -2"/>
-      <path d="M -4 2 L 4 2"/>
-    </svg>
-  ),
+  scroll: svgIcon('icon-sutta-archive.svg', 'Sutta Archive'),
+  suttaPitaka: svgIcon('icon-sutta-pitaka.svg', 'සුත්‍ර පිටකය'),
 
-  feather: ({size=28}) => (
-    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M 9 -9 C 2 -10, -7 -3, -7 6 L -2 6 C 6 6, 10 -1, 9 -9 Z" fill="currentColor" fillOpacity="0.14"/>
-      <path d="M -7 9 L 4 -2"/>
-    </svg>
-  ),
+  feather: svgIcon('icon-newsletter.svg', 'Newsletter'),
 
   bell: ({size=28}) => (
     <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
@@ -149,12 +132,65 @@ const Icons = {
     </svg>
   ),
 
-  tree: ({size=28}) => (
+  tree: svgIcon('icon-monastery.svg', 'Monastery'),
+  dailyRoutine: svgIcon('icon-daily-routine.svg', 'Daily Routine'),
+
+  instagram: ({size=28}) => (
     <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M 0 9 L 0 -2"/>
-      <path d="M -6 4 C -8 -1, -3 -4, 0 -3 C 3 -4, 8 -1, 6 4 C 3 3, 0 5, 0 5 C 0 5, -3 3, -6 4 Z" fill="currentColor" fillOpacity="0.18"/>
+      <rect x="-8" y="-8" width="16" height="16" rx="4.5"/>
+      <circle cx="0" cy="0" r="4"/>
+      <circle cx="5.5" cy="-5.5" r="1" fill="currentColor" stroke="none"/>
     </svg>
   ),
+
+  facebook: svgIcon('icon-facebook.svg', 'Facebook'),
+
+  settings: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="0" cy="0" r="3"/>
+      <path d="M 0 -6 L 0 -9"/>
+      <path d="M 0 6 L 0 9"/>
+      <path d="M -6 0 L -9 0"/>
+      <path d="M 6 0 L 9 0"/>
+      <path d="M -4.2 -4.2 L -6.4 -6.4"/>
+      <path d="M 4.2 4.2 L 6.4 6.4"/>
+      <path d="M 4.2 -4.2 L 6.4 -6.4"/>
+      <path d="M -4.2 4.2 L -6.4 6.4"/>
+    </svg>
+  ),
+
+  booking: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="-8" y="-6" width="16" height="15" rx="1.5"/>
+      <path d="M -8 0 L 8 0"/>
+      <path d="M -5 -9 L -5 -4"/>
+      <path d="M 5 -9 L 5 -4"/>
+      <path d="M -2 4 L 1 7 L 5 2" strokeWidth="1.6"/>
+    </svg>
+  ),
+
+  retreat: svgIcon('icon-retreat-program.svg', 'Retreat Program'),
+
+  programs: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="-8" y="-8" width="16" height="16" rx="1.5" fill="currentColor" fillOpacity="0.1"/>
+      <path d="M -4 -4 L 6 -4"/>
+      <path d="M -4 0 L 4 0"/>
+      <path d="M -4 4 L 6 4"/>
+      <circle cx="-6" cy="-4" r="1" fill="currentColor"/>
+      <circle cx="-6" cy="0" r="1" fill="currentColor"/>
+      <circle cx="-6" cy="4" r="1" fill="currentColor"/>
+    </svg>
+  ),
+
+  star: ({size=28}) => (
+    <svg width={size} height={size} viewBox="-12 -12 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M 0 -9 L 2.5 -3 L 9 -3 L 4 1.5 L 5.8 8 L 0 4.5 L -5.8 8 L -4 1.5 L -9 -3 L -2.5 -3 Z" fill="currentColor" fillOpacity="0.2"/>
+    </svg>
+  ),
+
+  google: svgIcon('icon-google.svg', 'Google'),
+  threeStory: svgIcon('icon-threestory.svg', 'ThreeStory Building'),
 };
 
 window.Icons = Icons;

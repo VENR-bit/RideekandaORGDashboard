@@ -9,77 +9,108 @@ const { useState, useEffect, useRef, useMemo, useCallback } = React;
 // hand-picked earthy/saffron tones meant to harmonise with the
 // monastery's warm-deep backdrop.
 // ──────────────────────────────────────────────────────────────
-const RAW_TILES = [
-  // CENTER — the home / about / main site
-  { id: 'home', label: 'Rideekanda', sub: 'rideekanda.org · main site',
-    url: 'https://rideekanda.org', size: 178, ring: 0,
+const DEFAULT_TILES = [
+  // CENTER — Ring 0
+  { id: 'home', label: 'Rideekanda WEB', sub: 'Official Website of the Rideekanda Forest Monastery',
+    url: 'https://www.rideekanda.com/', size: 178, ring: 0,
     bg: 'radial-gradient(circle at 35% 30%, #4a2e16 0%, #1c100a 80%)',
     halo: 'rgba(224, 183, 106, 0.45)', fg: '#f4e1b8', icon: 'home' },
 
-  // RING 1 — five primary destinations (medium)
-  { id: 'youtube', label: 'YouTube Channel', sub: 'Dhamma talks · pūjā recordings',
-    url: 'https://youtube.com/@rideekanda', size: 132, ring: 1,
-    bg: 'radial-gradient(circle at 30% 25%, #8a2a18 0%, #4a1208 85%)',
-    halo: 'rgba(200, 80, 40, 0.35)', fg: '#fbe2cb', icon: 'play' },
-
-  { id: 'booking', label: 'Booking Platform', sub: 'reserve a stay for retreat',
-    url: '#booking', size: 132, ring: 1,
+  // RING 1 — primary destinations
+  { id: 'booking', label: 'Retreat Booking', sub: 'Reserve a stay for retreat',
+    url: 'https://www.rideekanda.com/book-your-stay/', size: 132, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #a06a2a 0%, #5a3210 85%)',
     halo: 'rgba(217, 155, 74, 0.35)', fg: '#f6e0bd', icon: 'calendar' },
 
-  { id: 'library', label: 'Project Library', sub: 'sutta translations, essays, notes',
-    url: '#library', size: 132, ring: 1,
+  { id: 'library', label: 'Project Library Cafe', sub: 'Ongoing Project to build a Library Cafe in Rideekanda',
+    url: 'https://venr-bit.github.io/Library-Cafe/', size: 132, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #4a5a30 0%, #1e2812 85%)',
     halo: 'rgba(160, 180, 100, 0.32)', fg: '#e8e6c8', icon: 'book' },
 
-  { id: 'requirements', label: 'Requirements List', sub: 'items the sangha needs',
-    url: '#requirements', size: 132, ring: 1,
+  { id: 'requirements', label: 'Requirement Lists', sub: 'Necessary Items needed for Rideekanda',
+    url: 'https://venr-bit.github.io/rideekanda-requirements/', size: 132, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #6a4e26 0%, #2e1f0c 85%)',
     halo: 'rgba(204, 160, 92, 0.32)', fg: '#f0e0bd', icon: 'list' },
 
-  { id: 'dhamma', label: 'Dhamma Talks', sub: 'audio teachings · weekly',
-    url: '#dhamma', size: 132, ring: 1,
+  { id: 'threestory', label: 'Project ThreeStory Building', sub: 'Ongoing Construction of ThreeStory Building with Meditation Hall and Accommodations',
+    url: 'https://venr-bit.github.io/ThreeStory/', size: 132, ring: 1,
+    bg: 'radial-gradient(circle at 30% 25%, #5a4020 0%, #2a1c0c 85%)',
+    halo: 'rgba(200, 160, 80, 0.32)', fg: '#f0ddb8', icon: 'threeStory' },
+
+  { id: 'retreat-program', label: 'Retreat Program', sub: 'Details of Ongoing Retreats',
+    url: 'https://www.rideekanda.com/retreat-center/', size: 132, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #7a3a1c 0%, #3a1808 85%)',
-    halo: 'rgba(217, 130, 74, 0.32)', fg: '#fbdcc0', icon: 'lotus' },
+    halo: 'rgba(217, 130, 74, 0.32)', fg: '#fbdcc0', icon: 'retreat' },
 
-  // RING 2 — secondary links (small)
-  { id: 'audio', label: 'Audio Library', url: '#audio', size: 82, ring: 2,
-    bg: '#3a2818', fg: '#e6d4ae', icon: 'wave' },
-  { id: 'photos', label: 'Photo Gallery', url: '#photos', size: 82, ring: 2,
+  { id: 'monastery', label: 'Monastery', sub: 'About Monastery',
+    url: 'https://www.rideekanda.com/monastery/', size: 132, ring: 1,
+    bg: 'radial-gradient(circle at 30% 25%, #3a4a28 0%, #1a2210 85%)',
+    halo: 'rgba(140, 170, 90, 0.32)', fg: '#dce0c4', icon: 'tree' },
+
+  // RING 2 — secondary links
+  { id: 'photos', label: 'Photo Gallery', sub: 'Photo Gallery from Google Maps',
+    url: 'https://www.google.com/maps/place/Rideekanda+Forest+Monastery/@7.5347744,80.5602435,3a,75y,90t/data=!3m8!1e2!3m6!1sCIABIhA1Q8HISsnKLMYykpW5UKMd!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAPNQkAGpbt4bdZXUYCUz_ItULuC8ahpDfQPTv5e7qD-oCYdvj1lvsfaUcVbEicsKVdXTKLp53c1Azjy2CVxB5rEcmdkAxlYZnMDMlZi1kM2Vt_u7bWROhJwp60bPgWfSH0DCwTf2t_CHEJFjjjg3%3Dw488-h298-k-no!7i7150!8i4364!4m19!1m9!3m8!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!2sRideekanda+Forest+Monastery!8m2!3d7.5347744!4d80.5602435!9m1!1b1!16s%2Fg%2F11h_3yttgb!3m8!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!8m2!3d7.5347744!4d80.5602435!10e5!14m1!1BCgIgAQ!16s%2Fg%2F11h_3yttgb?entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D',
+    size: 82, ring: 2,
     bg: '#2a3624', fg: '#dee0c0', icon: 'image' },
-  { id: 'visit', label: 'How to Visit', url: '#visit', size: 82, ring: 2,
-    bg: '#4a3a24', fg: '#e8d6b0', icon: 'pin' },
-  { id: 'donate', label: 'Dāna · Donate', url: '#donate', size: 82, ring: 2,
-    bg: '#5a2a18', fg: '#f0c8a8', icon: 'hands' },
-  { id: 'live', label: 'Live Pūjā', url: '#live', size: 82, ring: 2,
-    bg: '#6a1c14', fg: '#f4c4b0', icon: 'broadcast' },
-  { id: 'email', label: 'Contact', url: '#contact', size: 82, ring: 2,
+  { id: 'map', label: 'Map', sub: 'Google location on Rideekanda',
+    url: 'https://maps.app.goo.gl/3Gb3nt8qaPqdSTgB9', size: 82, ring: 2,
+    bg: '#2a2418', fg: '#e8d6b0', icon: 'pin' },
+  { id: 'contact', label: 'Contact', sub: 'Contact Us on Email | WhatsApp | Tel',
+    url: 'https://www.rideekanda.com/contact/', size: 82, ring: 2,
     bg: '#2a261a', fg: '#d4c8a4', icon: 'mail' },
-  { id: 'sinhala', label: 'සිංහල · Sinhala', url: '#si', size: 82, ring: 2,
+  { id: 'sinhala', label: 'සිංහල වෙබ්', sub: 'රිදීකන්ද වෙබ් පිටුවට සිංහලෙන්',
+    url: 'https://www.rideekanda.com/?lan=sn', size: 82, ring: 2,
     bg: '#3a2a3a', fg: '#e0c8d4', icon: 'sinhala' },
-  { id: 'observance', label: 'Observance Days', url: '#poya', size: 82, ring: 2,
-    bg: '#1c2838', fg: '#c4d2e4', icon: 'moon' },
-  { id: 'suttas', label: 'Sutta Archive', url: '#suttas', size: 82, ring: 2,
+  { id: 'suttas-en', label: 'Sutta Archive', sub: 'Reading Suttas in English',
+    url: 'https://suttacentral.net/?lang=en', size: 82, ring: 2,
     bg: '#4a3818', fg: '#ecd8a8', icon: 'scroll' },
-  { id: 'newsletter', label: 'Newsletter', url: '#news', size: 82, ring: 2,
+  { id: 'suttas-si', label: 'සුත්‍ර පිටකය', sub: 'සුත්‍ර පිටකය සිංහලෙන්',
+    url: 'https://pitaka.lk/main/', size: 82, ring: 2,
+    bg: '#3a3018', fg: '#e6d4a8', icon: 'suttaPitaka' },
+  { id: 'newsletter', label: 'Newsletter', sub: 'News and Events of Rideekanda',
+    url: 'https://www.rideekanda.com/news-and-events/', size: 82, ring: 2,
     bg: '#2a2628', fg: '#d4ccc8', icon: 'feather' },
+  { id: 'donate', label: 'Dāna | Donation', sub: 'Your contributions allow the monastery to center its programs and outreach',
+    url: 'https://venr-bit.github.io/RideekandaDonate/', size: 82, ring: 2,
+    bg: '#5a2a18', fg: '#f0c8a8', icon: 'hands' },
+  { id: 'reviews', label: 'Reviews', sub: 'Reviews on Rideekanda',
+    url: 'https://www.google.com/maps/place/Rideekanda+Forest+Monastery/@7.5347744,80.5576632,17z/data=!4m14!1m5!8m4!1e1!2s111125857751127013353!3m1!1e1!3m7!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!8m2!3d7.5347744!4d80.5602435!9m1!1b1!16s%2Fg%2F11h_3yttgb?hl=en&entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D',
+    size: 82, ring: 2,
+    bg: '#3a3018', fg: '#e6c888', icon: 'star' },
 
-  // RING 3 — tertiary / accent (tiny)
-  { id: 'bell', label: 'Daily Bell', url: '#bell', size: 56, ring: 3,
-    bg: '#2a1f14', fg: '#c8b48a', icon: 'bell' },
-  { id: 'tree', label: 'Forest Map', url: '#map', size: 56, ring: 3,
-    bg: '#1f2a18', fg: '#b8c8a0', icon: 'tree' },
-  { id: 'admin', label: 'Admin', url: 'https://rideekanda.org/admin.html', size: 56, ring: 3,
-    bg: '#252028', fg: '#b0a8b0', icon: 'list' },
-  { id: 'photos2', label: 'Festival 2026', url: '#fest', size: 56, ring: 3,
-    bg: '#382418', fg: '#ccab88', icon: 'image' },
+  // RING 3 — tertiary / accent
+  { id: 'daily-routine', label: 'Daily Routine', sub: 'Daily Routine of the Rideekanda',
+    url: 'https://www.rideekanda.com/resources/Daily_Routine_Schedule.pdf', size: 56, ring: 3,
+    bg: '#1f2a18', fg: '#b8c8a0', icon: 'dailyRoutine' },
+  { id: 'admin', label: 'Admin', sub: 'Admin Panel',
+    url: 'https://rideekanda.org/admin.html', size: 56, ring: 3,
+    bg: '#252028', fg: '#b0a8b0', icon: 'settings' },
+  { id: 'facebook', label: 'Facebook', sub: '/rideekandaforest',
+    url: 'https://www.facebook.com/rideekandaforest', size: 56, ring: 3,
+    bg: '#1c2238', fg: '#b0c0e0', icon: 'facebook' },
+  { id: 'instagram', label: 'Instagram', sub: '/rideekanda.monastery/',
+    url: 'https://www.instagram.com/rideekanda.monastery/', size: 56, ring: 3,
+    bg: '#38202a', fg: '#e0b0c0', icon: 'instagram' },
+  { id: 'google-profile', label: 'Google Profile', sub: 'Google Profiles',
+    url: 'https://share.google/gXH0xqwl9PWo2iQOd', size: 56, ring: 3,
+    bg: '#2a2a2a', fg: '#d4d4d4', icon: 'google' },
+  { id: 'dhamma', label: 'Dhamma Talks', sub: 'Video Recordings of Teachings',
+    url: 'https://drive.google.com/drive/folders/1ITnaTnLj3Ntx9erkMFhGeSMVdWy9mU7t?usp=drive_link', size: 56, ring: 3,
+    bg: '#3a2818', fg: '#e6d4ae', icon: 'lotus' },
+  { id: 'audio', label: 'Audio Library', sub: 'Guided Audio Recording of Jhāna Meditation',
+    url: 'https://drive.google.com/drive/folders/10QOiPGjkCcWODUnI-kKiNLqWdcpSpMRq?usp=drive_link', size: 56, ring: 3,
+    bg: '#2a2018', fg: '#d4c4a0', icon: 'wave' },
+  { id: 'youtube', label: 'YouTube', sub: '/RideekandaForestMonastery',
+    url: 'https://youtube.com/c/RideekandaForestMonastery', size: 56, ring: 3,
+    bg: '#8a2a18', fg: '#fbe2cb', icon: 'play' },
 ];
+window.DEFAULT_TILES = DEFAULT_TILES;
 
-function buildLayout(density) {
+function buildLayout(tilesData, density) {
   const R1 = 240 * density;
   const R2 = 410 * density;
   const R3 = 540 * density;
-  const tiles = RAW_TILES.map(t => ({ ...t, x: 0, y: 0 }));
+  const tiles = tilesData.map(t => ({ ...t, x: 0, y: 0 }));
   const ring1 = tiles.filter(t => t.ring === 1);
   const ring2 = tiles.filter(t => t.ring === 2);
   const ring3 = tiles.filter(t => t.ring === 3);
@@ -189,9 +220,9 @@ const Tile = React.memo(function Tile({ tile, x, y, scale, opacity, isFocal, onP
 // Honeycomb stage — owns the pan state and dispatches drag /
 // click events. Math runs once per frame via panRef in render.
 // ──────────────────────────────────────────────────────────────
-function Honeycomb({ tweaks }) {
+function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
   const stageRef = useRef(null);
-  const tiles = useMemo(() => buildLayout(tweaks.density), [tweaks.density]);
+  const tiles = useMemo(() => buildLayout(tilesData, tweaks.density), [tilesData, tweaks.density]);
   const { pan, setTarget, nudgeTarget, snapTo, panRef, targetRef } = useLerpedPan(0.16);
   const [dragging, setDragging] = useState(false);
 
@@ -199,6 +230,9 @@ function Honeycomb({ tweaks }) {
   const [focalId, setFocalIdState] = useState('home');
   const focalIdRef = useRef('home');
   const setFocalId = (id) => { focalIdRef.current = id; setFocalIdState(id); };
+
+  const onAdminToggleRef = useRef(onAdminToggle);
+  onAdminToggleRef.current = onAdminToggle;
 
   // Drag handling
   useEffect(() => {
@@ -208,6 +242,7 @@ function Honeycomb({ tweaks }) {
     let lastX = 0, lastY = 0;
     let movedDist = 0;
     let pointerId = null;
+    let focalAtDown = null;
 
     const onDown = (e) => {
       if (e.button !== undefined && e.button !== 0) return;
@@ -215,6 +250,7 @@ function Honeycomb({ tweaks }) {
       pointerId = e.pointerId;
       lastX = e.clientX; lastY = e.clientY;
       movedDist = 0;
+      focalAtDown = focalIdRef.current;
       setDragging(true);
       el.setPointerCapture && el.setPointerCapture(e.pointerId);
     };
@@ -239,10 +275,7 @@ function Honeycomb({ tweaks }) {
       if (!active) return;
       active = false;
       setDragging(false);
-      // If barely moved, this was a tap — find what was tapped via pointer-up handler on tile.
-      // If significantly moved, snap to nearest tile after release.
       if (movedDist > 14) {
-        // Find tile nearest to viewport center under the just-released pan
         const px = targetRef.current.x;
         const py = targetRef.current.y;
         let best = null, bestD = Infinity;
@@ -255,6 +288,32 @@ function Honeycomb({ tweaks }) {
         if (best) {
           targetRef.current = { x: -best.x, y: -best.y };
           setFocalId(best.id);
+        }
+      } else {
+        el.releasePointerCapture && pointerId != null && el.releasePointerCapture(pointerId);
+        const tapped = document.elementFromPoint(e.clientX, e.clientY);
+        const tileEl = tapped && tapped.closest('.tile');
+        if (tileEl) {
+          const hitId = tileEl.dataset.id;
+          const hit = tiles.find(t => t.id === hitId);
+          if (hit) {
+            const wasFocal = (hitId === focalAtDown);
+            const px = targetRef.current.x;
+            const py = targetRef.current.y;
+            const sx = hit.x + px;
+            const sy = hit.y + py;
+            const distFromCenter = Math.sqrt(sx * sx + sy * sy);
+            if (wasFocal && distFromCenter < 40) {
+              if (hit.id === 'admin' && onAdminToggleRef.current) {
+                onAdminToggleRef.current();
+              } else if (hit.url && !hit.url.startsWith('#')) {
+                window.open(hit.url, '_blank', 'noopener');
+              }
+            } else {
+              targetRef.current = { x: -hit.x, y: -hit.y };
+              setFocalId(hit.id);
+            }
+          }
         }
       }
     };
@@ -306,19 +365,21 @@ function Honeycomb({ tweaks }) {
   }, [nudgeTarget, setTarget, tiles]);
 
   // Tile pointer-up: pan to it on tap; if already focal, open
+  // This handler is mostly a fallback for desktop; the stage onUp handles most taps.
   const handleTilePointer = useCallback((e, tile) => {
-    // Distinguish tap from drag: if the stage already saw significant movement, the global
-    // pointerup handler snaps to nearest and we don't want this to fire too.
-    // We compare current screen pos of the tile to viewport center.
+    // Only open if this tile was already the focal tile before interaction
     const sx = tile.x + targetRef.current.x;
     const sy = tile.y + targetRef.current.y;
     const dist = Math.sqrt(sx * sx + sy * sy);
-    if (dist < 40) {
-      // Already focal — open the link (in new tab for real URLs)
+    const wasFocal = (tile.id === focalIdRef.current);
+    if (wasFocal && dist < 40) {
+      if (tile.id === 'admin' && onAdminToggle) {
+        onAdminToggle();
+        return;
+      }
       if (tile.url && !tile.url.startsWith('#')) {
         window.open(tile.url, '_blank', 'noopener');
       } else {
-        // Hash links: small bounce animation feedback
         const el = e.currentTarget;
         el.animate(
           [{ transform: el.style.transform + ' translateZ(0)' },
@@ -344,7 +405,7 @@ function Honeycomb({ tweaks }) {
     const dist = Math.sqrt(sx * sx + sy * sy);
     const t01 = clamp(dist / maxDist, 0, 1);
     const eased = smoothstep(t01);
-    const scale = lerp(1, minScale, eased) * (t.ring === 0 ? 1 : 1);
+    const scale = lerp(1, minScale, eased);
     // Radial inward pull at the edges — fisheye
     const pull = tweaks.fisheye ? eased * 0.18 : 0;
     const x = sx * (1 - pull);
@@ -359,8 +420,13 @@ function Honeycomb({ tweaks }) {
     if (computed[i].dist < focalD) { focalD = computed[i].dist; focalIdx = i; }
   }
   const focalTile = computed[focalIdx].tile;
+  const isFocalCenter = focalD < 60;
 
-  // Update compass dot
+  useEffect(() => {
+    if (onFocalChange) onFocalChange(focalTile, isFocalCenter);
+  }, [focalTile.id, isFocalCenter]);
+
+  // Update compass dot + click to recenter
   useEffect(() => {
     const dot = document.getElementById('compass-dot');
     if (!dot) return;
@@ -368,6 +434,20 @@ function Honeycomb({ tweaks }) {
     dot.setAttribute('cx', String(clamp(-pan.x * k, -22, 22)));
     dot.setAttribute('cy', String(clamp(-pan.y * k, -22, 22)));
   }, [pan.x, pan.y]);
+
+  useEffect(() => {
+    const compass = document.querySelector('.compass');
+    if (!compass) return;
+    const onClick = () => {
+      const home = tiles.find(t => t.ring === 0) || tiles[0];
+      if (home) {
+        setTarget(-home.x, -home.y);
+        setFocalId(home.id);
+      }
+    };
+    compass.addEventListener('click', onClick);
+    return () => compass.removeEventListener('click', onClick);
+  }, [tiles, setTarget]);
 
   return (
     <>
@@ -386,36 +466,16 @@ function Honeycomb({ tweaks }) {
         ))}
       </div>
 
-      <FocalReadout tile={focalTile} isCenter={focalD < 60} onOpen={() => {
-        if (focalTile.url && !focalTile.url.startsWith('#')) {
-          window.open(focalTile.url, '_blank', 'noopener');
-        }
-      }} />
     </>
   );
 }
 
-// ──────────────────────────────────────────────────────────────
-// Focal readout — large title + open pill, anchored bottom-center.
-// ──────────────────────────────────────────────────────────────
-function FocalReadout({ tile, isCenter, onOpen }) {
-  const isHome = tile.id === 'home';
+function FocalReadout({ tile, isCenter }) {
+  if (!tile) return null;
   return (
-    <div className="focal-readout" style={{ opacity: isCenter ? 1 : 0.35, transition: 'opacity 0.4s ease' }}>
-      <div className="kicker">{isHome ? 'රිදීකන්ද ආරණ්‍ය සේනාසනය' : 'destination'}</div>
-      <div className="title">
-        {isHome ? <><em>Rideekanda</em> Forest Monastery</> : tile.label}
-      </div>
-      {tile.sub && <div className="sub">{tile.sub}</div>}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <button className="open-pill" onClick={onOpen}>
-          {tile.url && !tile.url.startsWith('#') ? 'Open' : 'Coming soon'}
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-            <path d="M 2 6 L 10 6" />
-            <path d="M 7 3 L 10 6 L 7 9" />
-          </svg>
-        </button>
-      </div>
+    <div className="focal-bar" style={{ opacity: isCenter ? 1 : 0.4, transition: 'opacity 0.4s ease' }}>
+      <span>{tile.label}</span>
+      {tile.sub && <><span className="focal-sep">·</span><span>{tile.sub}</span></>}
     </div>
   );
 }
@@ -431,21 +491,61 @@ function App() {
     "fisheye": true
   }/*EDITMODE-END*/);
 
-  // Apply palette to body classes / backdrop
+  const [tiles, tileActions] = useTiles();
+  const [adminMode, setAdminMode] = useState(false);
+  const [focal, setFocal] = useState({ tile: null, isCenter: false });
+  const handleFocalChange = useCallback((tile, isCenter) => {
+    setFocal({ tile, isCenter });
+  }, []);
+
+  const handleAdminToggle = useCallback(() => {
+    if (adminMode) {
+      setAdminMode(false);
+      return;
+    }
+    const pin = prompt('Enter admin PIN:');
+    if (pin === window.ADMIN_PIN) {
+      setAdminMode(true);
+    } else if (pin !== null) {
+      alert('Incorrect PIN.');
+    }
+  }, [adminMode]);
+
   useEffect(() => {
     const body = document.body;
     const bd = document.getElementById('backdrop');
-    body.classList.toggle('day', t.palette === 'parchment');
+    const toggle = document.getElementById('theme-toggle');
+    const isDay = t.palette === 'parchment';
+    body.classList.toggle('day', isDay);
     if (bd) {
       bd.classList.remove('day', 'midnight');
-      if (t.palette === 'parchment') bd.classList.add('day');
+      if (isDay) bd.classList.add('day');
       if (t.palette === 'midnight') bd.classList.add('midnight');
+    }
+    const toggleEl = document.getElementById('theme-toggle');
+    if (toggleEl) {
+      toggleEl.querySelector('.label').textContent = isDay ? 'Day' : 'Night';
     }
   }, [t.palette]);
 
+  // Theme toggle button
+  useEffect(() => {
+    const toggleEl = document.getElementById('theme-toggle');
+    if (!toggleEl) return;
+    const onClick = () => {
+      const next = t.palette === 'parchment' ? 'monastery' : 'parchment';
+      setTweak('palette', next);
+    };
+    toggleEl.addEventListener('click', onClick);
+    return () => toggleEl.removeEventListener('click', onClick);
+  }, [t.palette, setTweak]);
+
   return (
     <>
-      <Honeycomb tweaks={t} />
+      <Honeycomb tweaks={t} tilesData={tiles} onAdminToggle={handleAdminToggle} onFocalChange={handleFocalChange} />
+      <FocalReadout tile={focal.tile} isCenter={focal.isCenter} />
+      <AdminPanel open={adminMode} onClose={() => setAdminMode(false)}
+                  tiles={tiles} actions={tileActions} />
       <TweaksPanel title="Tweaks">
         <TweakSection label="Palette" />
         <TweakRadio label="Mood" value={t.palette}
