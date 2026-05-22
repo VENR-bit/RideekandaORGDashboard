@@ -28,7 +28,7 @@ const DEFAULT_TILES = [
     halo: 'rgba(160, 180, 100, 0.32)', fg: '#e8e6c8', icon: 'book' },
 
   { id: 'requirements', label: 'Requirement Lists', sub: 'Necessary Items needed for Rideekanda',
-    url: 'https://venr-bit.github.io/rideekanda-requirements/', size: 132, ring: 1,
+    url: 'https://venr-bit.github.io/RequirementList/', size: 132, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #6a4e26 0%, #2e1f0c 85%)',
     halo: 'rgba(204, 160, 92, 0.32)', fg: '#f0e0bd', icon: 'list' },
 
