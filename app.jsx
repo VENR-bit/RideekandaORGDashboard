@@ -18,7 +18,7 @@ const DEFAULT_TILES = [
 
   // RING 1 — primary destinations
   { id: 'booking', label: 'Retreat Booking', sub: 'Reserve a stay for retreat',
-    url: 'https://www.rideekanda.com/book-your-stay/', size: 132, ring: 1,
+    url: 'https://venr-bit.github.io/BookYourStay/', size: 132, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #a06a2a 0%, #5a3210 85%)',
     halo: 'rgba(217, 155, 74, 0.35)', fg: '#f6e0bd', icon: 'calendar' },
 
