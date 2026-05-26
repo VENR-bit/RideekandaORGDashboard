@@ -72,9 +72,10 @@ const DEFAULT_TILES = [
     url: 'https://www.rideekanda.com/monastery/', size: 82, ring: 2,
     bg: '#2a3620', fg: '#dce0c4', icon: 'tree' },
   { id: 'reviews', label: 'Reviews', sub: 'Reviews on Rideekanda',
-    url: 'https://www.google.com/maps/place/Rideekanda+Forest+Monastery/@7.5347744,80.5576632,17z/data=!4m14!1m5!8m4!1e1!2s111125857751127013353!3m1!1e1!3m7!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!8m2!3d7.5347744!4d80.5602435!9m1!1b1!16s%2Fg%2F11h_3yttgb?hl=en&entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D',
-    size: 82, ring: 2,
-    bg: '#3a3018', fg: '#e6c888', icon: 'star' },
+    url: 'https://venr-bit.github.io/RideekandaReviews/',
+    size: 132, ring: 1,
+    bg: 'radial-gradient(circle at 30% 25%, #4a3818 0%, #1e1608 85%)',
+    halo: 'rgba(200, 170, 80, 0.32)', fg: '#e6c888', icon: 'star' },
 
   // RING 3 — tertiary / accent
   { id: 'daily-routine', label: 'Daily Routine', sub: 'Daily Routine of the Rideekanda',
