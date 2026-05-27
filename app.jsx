@@ -44,14 +44,14 @@ const DEFAULT_TILES = [
 
   // RING 2 — secondary links
   { id: 'photos', label: 'Photo Gallery', sub: 'Photo Gallery from Google Maps',
-    url: 'https://www.google.com/maps/place/Rideekanda+Forest+Monastery/@7.5347744,80.5602435,3a,75y,90t/data=!3m8!1e2!3m6!1sCIABIhA1Q8HISsnKLMYykpW5UKMd!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAPNQkAGpbt4bdZXUYCUz_ItULuC8ahpDfQPTv5e7qD-oCYdvj1lvsfaUcVbEicsKVdXTKLp53c1Azjy2CVxB5rEcmdkAxlYZnMDMlZi1kM2Vt_u7bWROhJwp60bPgWfSH0DCwTf2t_CHEJFjjjg3%3Dw488-h298-k-no!7i7150!8i4364!4m19!1m9!3m8!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!2sRideekanda+Forest+Monastery!8m2!3d7.5347744!4d80.5602435!9m1!1b1!16s%2Fg%2F11h_3yttgb!3m8!1s0x3ae34ffaa55fe4e5:0xc9ee3c926d504cf8!8m2!3d7.5347744!4d80.5602435!10e5!14m1!1BCgIgAQ!16s%2Fg%2F11h_3yttgb?entry=ttu&g_ep=EgoyMDI2MDUxMS4wIKXMDSoASAFQAw%3D%3D',
+    url: 'https://venr-bit.github.io/RideekandaGallery/',
     size: 82, ring: 2,
     bg: '#2a3624', fg: '#dee0c0', icon: 'image' },
   { id: 'map', label: 'Map', sub: 'Google location on Rideekanda',
     url: 'https://maps.app.goo.gl/3Gb3nt8qaPqdSTgB9', size: 82, ring: 2,
     bg: '#2a2418', fg: '#e8d6b0', icon: 'pin' },
   { id: 'contact', label: 'Contact', sub: 'Contact Us on Email | WhatsApp | Tel',
-    url: 'https://www.rideekanda.com/contact/', size: 82, ring: 2,
+    url: 'https://www.rideekanda.com/contact/', size: 56, ring: 3,
     bg: '#2a261a', fg: '#d4c8a4', icon: 'mail' },
   { id: 'sinhala', label: 'සිංහල වෙබ්', sub: 'රිදීකන්ද වෙබ් පිටුවට සිංහලෙන්',
     url: 'https://www.rideekanda.com/?lan=sn', size: 82, ring: 2,
