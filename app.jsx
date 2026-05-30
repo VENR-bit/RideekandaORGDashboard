@@ -483,7 +483,7 @@ function FocalReadout({ tile, isCenter }) {
 // ──────────────────────────────────────────────────────────────
 function App() {
   const [t, setTweak] = useTweaks(/*EDITMODE-BEGIN*/{
-    "palette": "paper",
+    "palette": "night",
     "intensity": 0.7,
     "density": 0.78,
     "fisheye": true
