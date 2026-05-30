@@ -246,7 +246,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
     let lastMoveTime = 0;
     let momentumRaf = null;
 
-    const snapToNearest = () => {
+    const updateFocal = () => {
       const px = targetRef.current.x;
       const py = targetRef.current.y;
       let best = null, bestD = Infinity;
@@ -256,10 +256,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
         const d = sx * sx + sy * sy;
         if (d < bestD) { bestD = d; best = t; }
       }
-      if (best) {
-        targetRef.current = { x: -best.x, y: -best.y };
-        setFocalId(best.id);
-      }
+      if (best) setFocalId(best.id);
     };
 
     const onDown = (e) => {
@@ -323,12 +320,12 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
               momentumRaf = requestAnimationFrame(coast);
             } else {
               momentumRaf = null;
-              snapToNearest();
+              updateFocal();
             }
           };
           momentumRaf = requestAnimationFrame(coast);
         } else {
-          snapToNearest();
+          updateFocal();
         }
       } else {
         el.releasePointerCapture && pointerId != null && el.releasePointerCapture(pointerId);
