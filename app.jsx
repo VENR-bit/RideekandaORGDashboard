@@ -241,23 +241,54 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
     let movedDist = 0;
     let pointerId = null;
     let focalAtDown = null;
+    // Velocity tracking for momentum
+    let vx = 0, vy = 0;
+    let lastMoveTime = 0;
+    let momentumRaf = null;
+
+    const snapToNearest = () => {
+      const px = targetRef.current.x;
+      const py = targetRef.current.y;
+      let best = null, bestD = Infinity;
+      for (const t of tiles) {
+        const sx = t.x + px;
+        const sy = t.y + py;
+        const d = sx * sx + sy * sy;
+        if (d < bestD) { bestD = d; best = t; }
+      }
+      if (best) {
+        targetRef.current = { x: -best.x, y: -best.y };
+        setFocalId(best.id);
+      }
+    };
 
     const onDown = (e) => {
       if (e.button !== undefined && e.button !== 0) return;
+      // Cancel any ongoing momentum
+      if (momentumRaf) { cancelAnimationFrame(momentumRaf); momentumRaf = null; }
       active = true;
       pointerId = e.pointerId;
       lastX = e.clientX; lastY = e.clientY;
       movedDist = 0;
+      vx = 0; vy = 0;
+      lastMoveTime = Date.now();
       focalAtDown = focalIdRef.current;
       setDragging(true);
       el.setPointerCapture && el.setPointerCapture(e.pointerId);
     };
     const onMove = (e) => {
       if (!active) return;
+      const now = Date.now();
+      const dt = Math.max(now - lastMoveTime, 1);
       const dx = e.clientX - lastX;
       const dy = e.clientY - lastY;
       lastX = e.clientX; lastY = e.clientY;
+      lastMoveTime = now;
       movedDist += Math.abs(dx) + Math.abs(dy);
+      // Track velocity (pixels per ms, smoothed)
+      const mix = 0.4;
+      vx = vx * (1 - mix) + (dx / dt) * mix;
+      vy = vy * (1 - mix) + (dy / dt) * mix;
       // Direct: bypass the lerp during drag so dragging feels 1:1
       targetRef.current = {
         x: targetRef.current.x + dx,
@@ -274,18 +305,30 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
       active = false;
       setDragging(false);
       if (movedDist > 14) {
-        const px = targetRef.current.x;
-        const py = targetRef.current.y;
-        let best = null, bestD = Infinity;
-        for (const t of tiles) {
-          const sx = t.x + px;
-          const sy = t.y + py;
-          const d = sx * sx + sy * sy;
-          if (d < bestD) { bestD = d; best = t; }
-        }
-        if (best) {
-          targetRef.current = { x: -best.x, y: -best.y };
-          setFocalId(best.id);
+        // Apply momentum — coast with decaying velocity, then snap
+        const speed = Math.sqrt(vx * vx + vy * vy);
+        if (speed > 0.15) {
+          // Scale velocity to pixels per frame (~16ms)
+          let mvx = vx * 16;
+          let mvy = vy * 16;
+          const friction = 0.92;
+          const coast = () => {
+            mvx *= friction;
+            mvy *= friction;
+            targetRef.current = {
+              x: targetRef.current.x + mvx,
+              y: targetRef.current.y + mvy,
+            };
+            if (Math.abs(mvx) > 0.3 || Math.abs(mvy) > 0.3) {
+              momentumRaf = requestAnimationFrame(coast);
+            } else {
+              momentumRaf = null;
+              snapToNearest();
+            }
+          };
+          momentumRaf = requestAnimationFrame(coast);
+        } else {
+          snapToNearest();
         }
       } else {
         el.releasePointerCapture && pointerId != null && el.releasePointerCapture(pointerId);
@@ -324,6 +367,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onUp);
+      if (momentumRaf) cancelAnimationFrame(momentumRaf);
     };
   }, [tiles, targetRef, panRef]);
 
