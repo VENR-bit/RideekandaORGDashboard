@@ -2,15 +2,22 @@
 // All sized via the `size` prop, single-stroke or filled with currentColor.
 
 const svgIcon = (src, alt, scale=1.1) => ({size=28}) => (
-  <img
-    src={src}
-    alt={alt}
-    draggable="false"
+  <div
+    role="img"
+    aria-label={alt}
     style={{
       width: size * scale,
-      height: 'auto',
+      height: size * scale,
       display: 'block',
-      filter: 'brightness(0) invert(1) opacity(0.85) drop-shadow(0 1px 3px rgba(0,0,0,0.3))',
+      backgroundColor: 'currentColor',
+      WebkitMaskImage: `url(${src})`,
+      maskImage: `url(${src})`,
+      WebkitMaskSize: 'contain',
+      maskSize: 'contain',
+      WebkitMaskRepeat: 'no-repeat',
+      maskRepeat: 'no-repeat',
+      WebkitMaskPosition: 'center',
+      maskPosition: 'center',
       pointerEvents: 'none',
       userSelect: 'none',
     }}
@@ -20,15 +27,22 @@ const svgIcon = (src, alt, scale=1.1) => ({size=28}) => (
 const Icons = {
   // Official Rideekanda monastery logo for the center tile
   home: ({size=44}) => (
-    <img
-      src="rideekanda-logo.svg"
-      alt="Rideekanda"
-      draggable="false"
+    <div
+      role="img"
+      aria-label="Rideekanda"
       style={{
         width: size * 1.55,
-        height: 'auto',
+        height: size * 1.55,
         display: 'block',
-        filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.45))',
+        backgroundColor: 'currentColor',
+        WebkitMaskImage: 'url(rideekanda-logo.svg)',
+        maskImage: 'url(rideekanda-logo.svg)',
+        WebkitMaskSize: 'contain',
+        maskSize: 'contain',
+        WebkitMaskRepeat: 'no-repeat',
+        maskRepeat: 'no-repeat',
+        WebkitMaskPosition: 'center',
+        maskPosition: 'center',
         pointerEvents: 'none',
         userSelect: 'none',
       }}

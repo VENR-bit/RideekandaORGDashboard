@@ -8,69 +8,91 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+Sinhala:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* ─────────────────────────────────────────────────────────
+       Palette — paper (light default) / night (dark).
+       Lifted from new appearance to match the family look.
+       ───────────────────────────────────────────────────────── */
     :root {
-      --bg-deep: #0d0a07;
-      --bg-mid: #181210;
-      --bg-glow: #3a2410;
-      --ink: #f3e8d0;
-      --ink-dim: #c9b896;
-      --ink-faint: #8a7a5e;
-      --saffron: #d99b4a;
-      --brick: #a8472a;
+      --bg: #f4ede0;
+      --bg-deep: #ece3d1;
+      --card: #fdfbf6;
+      --ink: #1f1a14;
+      --ink-dim: #4a4034;
+      --ink-faint: #8a7d68;
+      --muted: #8a7d68;
+      --line: #e6dcc6;
+      --accent: #2d4a32;
+      --accent-soft: #5b7a5f;
+      --gold: #c08a3e;
+      --saffron: #c08a3e;
+      --halo: rgba(45, 74, 50, 0.22);
+      --shadow-sm: 0 1px 2px rgba(57, 44, 22, 0.05), 0 0 0 1px rgba(57, 44, 22, 0.04);
+      --shadow-md: 0 12px 32px -16px rgba(57, 44, 22, 0.22), 0 2px 6px -2px rgba(57, 44, 22, 0.08), 0 0 0 1px rgba(57, 44, 22, 0.05);
+    }
+    body.dark {
+      --bg: #1f1a14;
+      --bg-deep: #16120d;
+      --card: #2a241c;
+      --ink: #f3ecdb;
+      --ink-dim: #d8ccb4;
+      --ink-faint: #9d8d72;
+      --muted: #9d8d72;
+      --line: #3a3025;
+      --accent: #c08a3e;
+      --accent-soft: #d8a85a;
       --gold: #e0b76a;
-      --moss: #6e8050;
+      --saffron: #e0b76a;
+      --halo: rgba(224, 183, 106, 0.28);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,235,200,0.04);
+      --shadow-md: 0 16px 40px -18px rgba(0,0,0,0.7), 0 2px 6px -2px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,235,200,0.05);
     }
     * { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0;
       width: 100%; height: 100%;
-      background: var(--bg-deep);
+      background: var(--bg);
       color: var(--ink);
       font-family: 'Manrope', system-ui, sans-serif;
       overflow: hidden;
       overscroll-behavior: none;
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
+      transition: background 0.6s ease, color 0.6s ease;
     }
     #root { width: 100%; height: 100%; }
 
-    /* Backdrop: warm radial glow + deep forest base + faint grain */
+    /* Backdrop — paper texture: two faint radial washes (gold + forest) */
     .backdrop {
       position: fixed; inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 50% 50%, oklch(0.30 0.06 55 / 0.55), transparent 70%),
-        radial-gradient(ellipse 100% 80% at 50% 100%, oklch(0.22 0.03 45 / 0.5), transparent 70%),
-        linear-gradient(180deg, #0a0805 0%, #15100b 50%, #0c0907 100%);
       pointer-events: none;
-    }
-    .backdrop.day {
       background:
-        radial-gradient(ellipse 70% 60% at 50% 50%, oklch(0.96 0.04 80 / 0.6), transparent 70%),
-        linear-gradient(180deg, #f5ecd9 0%, #ede0c4 60%, #e2d2b0 100%);
+        radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 48%),
+        radial-gradient(circle at 82% 88%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 50%),
+        radial-gradient(ellipse 60% 55% at 50% 46%, color-mix(in srgb, var(--card) 55%, transparent), transparent 72%);
+      transition: background 0.6s ease;
     }
-    .backdrop.midnight {
-      background:
-        radial-gradient(ellipse 55% 50% at 50% 50%, oklch(0.30 0.08 250 / 0.5), transparent 70%),
-        linear-gradient(180deg, #06080d 0%, #0c1220 50%, #050709 100%);
-    }
+    /* Very subtle paper grain */
     .grain {
       position: fixed; inset: 0;
       pointer-events: none;
-      opacity: 0.06;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.7'/></svg>");
+      opacity: 0.5;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='220' height='220' filter='url(%23n)' opacity='0.025'/></svg>");
     }
+    body.dark .grain { mix-blend-mode: screen; opacity: 0.4; }
     /* Decorative mountain wash at bottom — sumi-e silhouette */
     .horizon {
       position: fixed;
       left: 0; right: 0; bottom: 0;
       height: 30vh;
       pointer-events: none;
-      opacity: 0.18;
+      opacity: 0.08;
       background:
-        radial-gradient(ellipse 80% 100% at 30% 100%, oklch(0.12 0.02 30) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 90% at 70% 100%, oklch(0.10 0.02 25) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 100% at 30% 100%, rgba(45,74,50,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 90% at 70% 100%, rgba(45,74,50,0.1) 0%, transparent 50%);
+      transition: opacity 0.6s ease;
     }
+    body.dark .horizon { opacity: 0.18; }
 
     /* Header */
     .chrome {
@@ -88,10 +110,11 @@
       font-family: 'JetBrains Mono', monospace;
       font-weight: 400;
       font-size: 10px;
-      color: var(--ink-faint);
+      color: var(--muted);
       letter-spacing: 0.22em;
       text-transform: uppercase;
       text-align: center;
+      transition: color 0.6s ease;
     }
 
     /* Stage: where tiles live */
@@ -118,36 +141,56 @@
       border-radius: 9999px;
       display: grid; place-items: center;
       overflow: hidden;
-      background: var(--tile-bg, #2a1f15);
-      box-shadow:
-        inset 0 1px 0 rgba(255,235,200,0.08),
-        inset 0 -16px 24px rgba(0,0,0,0.35),
-        0 14px 30px rgba(0,0,0,0.35),
-        0 2px 4px rgba(0,0,0,0.25);
-      transition: box-shadow 0.5s ease;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.45s ease, border-color 0.45s ease, background 0.6s ease;
     }
     .tile.focal .tile-inner {
       box-shadow:
-        inset 0 1px 0 rgba(255,240,210,0.18),
-        inset 0 -18px 30px rgba(0,0,0,0.25),
-        0 18px 36px rgba(0,0,0,0.5),
-        0 0 0 1px rgba(255,220,160,0.18),
-        0 0 40px 4px var(--halo, rgba(217,155,74,0.28));
+        var(--shadow-md),
+        0 0 0 1.5px color-mix(in srgb, var(--accent) 38%, transparent),
+        0 0 44px -6px var(--halo);
+      border-color: transparent;
     }
-    /* Rim light */
+    /* Home tile: forest-green (paper) / espresso-gold (night) medallion */
+    .tile--home .tile-inner {
+      background:
+        radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--accent) 82%, #fff 18%), var(--accent) 78%);
+      border-color: transparent;
+      box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.14);
+    }
+    .tile--home.focal .tile-inner {
+      box-shadow:
+        var(--shadow-md),
+        0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent),
+        0 0 54px -4px var(--halo),
+        inset 0 1px 0 rgba(255,255,255,0.16);
+    }
+    body.dark .tile--home .tile-inner {
+      background: radial-gradient(circle at 34% 28%, #3a3026, #211c15 80%);
+      box-shadow: var(--shadow-md), 0 0 0 1.5px color-mix(in srgb, var(--gold) 45%, transparent), inset 0 1px 0 rgba(255,235,200,0.06);
+    }
+    /* Soft top sheen */
     .tile-rim {
       position: absolute; inset: 0;
       border-radius: 9999px;
       pointer-events: none;
-      background: radial-gradient(circle at 30% 25%, rgba(255,240,210,0.14), transparent 45%);
+      background: radial-gradient(circle at 32% 22%, rgba(255,255,255,0.5), transparent 46%);
+      opacity: 0.5;
     }
+    body.dark .tile-rim { background: radial-gradient(circle at 32% 22%, rgba(255,240,210,0.08), transparent 46%); opacity: 1; }
+    .tile--home .tile-rim { background: radial-gradient(circle at 34% 24%, rgba(255,255,255,0.22), transparent 50%); opacity: 1; }
     /* Icon */
     .tile-icon {
       position: relative;
       z-index: 2;
-      color: var(--tile-fg, var(--ink));
-      transition: color 0.3s ease;
+      color: var(--accent);
+      transition: color 0.45s ease;
     }
+    .tile--home .tile-icon { color: #f4ede0; }
+    body.dark .tile--home .tile-icon { color: #f4ede0; }
+    /* Mask-based SVG icons inherit currentColor via backgroundColor */
     /* Tile label beneath */
     .tile-label {
       position: absolute;
@@ -159,10 +202,10 @@
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      color: var(--ink-dim);
+      color: var(--muted);
       opacity: 0.7;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s ease, color 0.6s ease;
     }
     .tile.focal .tile-label { opacity: 1; }
 
@@ -175,9 +218,10 @@
       font-size: 8px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--ink-faint);
+      color: var(--muted);
       z-index: 30;
       pointer-events: none;
+      transition: color 0.6s ease;
     }
     .focal-sep { margin: 0 4px; }
 
@@ -190,15 +234,16 @@
       font-size: 8px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--ink-faint);
+      color: var(--muted);
       z-index: 30;
       pointer-events: none;
       opacity: 0.7;
+      transition: color 0.6s ease;
     }
     .hint .key {
       display: inline-block;
       padding: 2px 6px;
-      border: 1px solid var(--ink-faint);
+      border: 1px solid var(--muted);
       border-radius: 4px;
       margin: 0 2px;
       font-size: 9px;
@@ -215,107 +260,75 @@
       opacity: 0.7;
     }
     .compass-ring {
-      stroke: var(--ink-faint);
+      stroke: var(--muted);
       stroke-width: 0.5;
       fill: none;
     }
-    .compass-dot { fill: var(--gold); }
-    .compass-tick { stroke: var(--ink-faint); stroke-width: 0.5; }
-
-    /* Day-mode adjustments */
-    body.day {
-      --ink: #2a1f12;
-      --ink-dim: #5c4a30;
-      --ink-faint: #9a8868;
-      --gold: #8a5a1a;
-    }
-    body.day .grain { opacity: 0.03; }
-    body.day .horizon { opacity: 0.06; }
-    body.day .tile-inner {
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.12),
-        inset 0 -12px 20px rgba(0,0,0,0.2),
-        0 8px 24px rgba(0,0,0,0.12),
-        0 2px 6px rgba(0,0,0,0.08);
-    }
-    body.day .tile.focal .tile-inner {
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.15),
-        inset 0 -14px 24px rgba(0,0,0,0.18),
-        0 12px 32px rgba(0,0,0,0.18),
-        0 0 0 1px rgba(120,100,60,0.15),
-        0 0 30px 2px rgba(140,110,50,0.12);
-    }
-    body.day .tile-rim {
-      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.18), transparent 45%);
-    }
+    .compass-dot { fill: var(--accent); }
+    .compass-tick { stroke: var(--muted); stroke-width: 0.5; }
 
     /* Sun/Moon toggle pill */
     .theme-toggle {
       position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 60;
       display: inline-flex; align-items: center; gap: 2px;
       padding: 3px;
-      border: 1px solid rgba(255, 235, 200, 0.18);
       border-radius: 999px;
-      background: rgba(255, 235, 200, 0.06);
+      background: color-mix(in srgb, var(--card) 70%, transparent);
+      border: 1px solid var(--line);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       cursor: pointer;
       font: inherit;
       transition: background 0.3s ease, border-color 0.3s ease;
     }
-    body.day .theme-toggle {
-      background: rgba(60, 38, 14, 0.06);
-      border: 1px solid rgba(60, 38, 14, 0.20);
-    }
     /* Track */
     .theme-toggle .knob {
       position: relative;
       width: 40px; height: 20px;
       border-radius: 999px;
-      background: linear-gradient(180deg, #1b140d 0%, #0e0a07 100%);
+      background: linear-gradient(180deg, #e7f0ea 0%, #d2e2d6 100%);
       transition: background 0.5s ease;
       overflow: hidden;
     }
-    body.day .theme-toggle .knob {
-      background: linear-gradient(180deg, #f7e9c8 0%, #e8d39d 100%);
+    body.dark .theme-toggle .knob {
+      background: linear-gradient(180deg, #211b13 0%, #14100b 100%);
     }
-    /* Disc (moon ↔ sun) */
+    /* Disc (sun ↔ moon) */
     .theme-toggle .knob .indicator {
       position: absolute; top: 2px; left: 2px;
       width: 16px; height: 16px;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 30%,
-                  #f5d68a 0%, #c98a2a 65%, #6d4810 100%);
+                  #fff3cf 0%, #f0c24e 60%, #c0892e 100%);
       box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.45),
-        0 0 10px rgba(245, 200, 110, 0.5);
-      transform: translateX(0);
+        0 1px 2px rgba(120,90,20,0.3),
+        0 0 12px rgba(240,200,90,0.6);
+      transform: translateX(20px);
       transition:
         transform 0.45s cubic-bezier(.4, 1.4, .5, 1),
         background 0.5s ease,
         box-shadow 0.5s ease;
     }
-    body.day .theme-toggle .knob .indicator {
-      transform: translateX(20px);
+    body.dark .theme-toggle .knob .indicator {
+      transform: translateX(0);
       background: radial-gradient(circle at 35% 30%,
-                  #fff7e0 0%, #f3d27a 60%, #b87b1e 100%);
+                  #f7f0dc 0%, #d8cba8 60%, #9d8c6e 100%);
       box-shadow:
-        0 1px 2px rgba(80, 50, 10, 0.25),
-        0 0 12px rgba(255, 220, 150, 0.7);
+        0 1px 2px rgba(0,0,0,0.4),
+        0 0 10px rgba(220,200,160,0.4);
     }
     /* Stars (night only) */
     .theme-toggle .knob .stars {
       position: absolute; inset: 0;
-      opacity: 1;
+      opacity: 0;
       transition: opacity 0.4s ease;
     }
-    body.day .theme-toggle .knob .stars { opacity: 0; }
+    body.dark .theme-toggle .knob .stars { opacity: 1; }
     .theme-toggle .knob .stars i {
       position: absolute;
       width: 1px; height: 1px;
       border-radius: 50%;
-      background: #f0d89a;
+      background: #e8dcbc;
       opacity: 0.85;
     }
     .theme-toggle .knob .stars i:nth-child(1) { top: 5px;  left: 23px; }
@@ -329,11 +342,10 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       padding: 0 8px 0 5px;
-      color: #8a7a5e;
+      color: var(--muted);
       white-space: nowrap;
       transition: color 0.4s ease;
     }
-    body.day .theme-toggle .label { color: #9a8460; }
     @media (max-width: 600px) {
       .theme-toggle { top: 6px; }
     }

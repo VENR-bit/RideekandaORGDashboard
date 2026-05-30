@@ -186,9 +186,10 @@ function useLerpedPan(stiffness = 0.16) {
 const Tile = React.memo(function Tile({ tile, x, y, scale, opacity, isFocal, onPointer }) {
   const Icon = Icons[tile.icon] || Icons.list;
   const iconSize = Math.round(tile.size * 0.42);
+  const tileClass = 'tile' + (tile.ring === 0 ? ' tile--home' : '') + (isFocal ? ' focal' : '');
   return (
     <div
-      className={'tile' + (isFocal ? ' focal' : '')}
+      className={tileClass}
       data-id={tile.id}
       style={{
         width: tile.size,
@@ -198,14 +199,12 @@ const Tile = React.memo(function Tile({ tile, x, y, scale, opacity, isFocal, onP
         transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`,
         opacity,
         zIndex: Math.round(200 - (tile.ring || 0) * 10 + (isFocal ? 100 : 0)),
-        '--tile-bg': tile.bg,
-        '--tile-fg': tile.fg,
-        '--halo': tile.halo || 'rgba(217,155,74,0.25)',
+        '--halo': tile.halo || 'rgba(45,74,50,0.22)',
       }}
       onPointerUp={(e) => onPointer(e, tile)}
     >
-      <div className="tile-inner" style={{ background: tile.bg }}>
-        <div className="tile-icon" style={{ color: tile.fg }}>
+      <div className="tile-inner">
+        <div className="tile-icon">
           <Icon size={iconSize} />
         </div>
         <div className="tile-rim" />
@@ -484,7 +483,7 @@ function FocalReadout({ tile, isCenter }) {
 // ──────────────────────────────────────────────────────────────
 function App() {
   const [t, setTweak] = useTweaks(/*EDITMODE-BEGIN*/{
-    "palette": "monastery",
+    "palette": "paper",
     "intensity": 0.7,
     "density": 0.78,
     "fisheye": true
@@ -511,19 +510,11 @@ function App() {
   }, [adminMode]);
 
   useEffect(() => {
-    const body = document.body;
-    const bd = document.getElementById('backdrop');
-    const toggle = document.getElementById('theme-toggle');
-    const isDay = t.palette === 'parchment';
-    body.classList.toggle('day', isDay);
-    if (bd) {
-      bd.classList.remove('day', 'midnight');
-      if (isDay) bd.classList.add('day');
-      if (t.palette === 'midnight') bd.classList.add('midnight');
-    }
+    const isDark = t.palette === 'night';
+    document.body.classList.toggle('dark', isDark);
     const toggleEl = document.getElementById('theme-toggle');
     if (toggleEl) {
-      toggleEl.querySelector('.label').textContent = isDay ? 'Day' : 'Night';
+      toggleEl.querySelector('.label').textContent = isDark ? 'Night' : 'Day';
     }
   }, [t.palette]);
 
@@ -532,7 +523,7 @@ function App() {
     const toggleEl = document.getElementById('theme-toggle');
     if (!toggleEl) return;
     const onClick = () => {
-      const next = t.palette === 'parchment' ? 'monastery' : 'parchment';
+      const next = t.palette === 'night' ? 'paper' : 'night';
       setTweak('palette', next);
     };
     toggleEl.addEventListener('click', onClick);
@@ -549,9 +540,8 @@ function App() {
         <TweakSection label="Palette" />
         <TweakRadio label="Mood" value={t.palette}
           options={[
-            { value: 'monastery', label: 'Saffron' },
-            { value: 'midnight', label: 'Midnight' },
-            { value: 'parchment', label: 'Day' },
+            { value: 'paper', label: 'Paper' },
+            { value: 'night', label: 'Night' },
           ]}
           onChange={(v) => setTweak('palette', v)} />
 
