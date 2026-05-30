@@ -98,7 +98,7 @@
     .chrome {
       position: fixed; top: 0; left: 0; right: 0;
       display: flex; justify-content: center; align-items: center;
-      padding: 38px 32px 20px;
+      padding: 28px 32px 16px;
       pointer-events: none;
       z-index: 50;
     }
@@ -125,10 +125,10 @@
     }
     .stage.dragging { cursor: grabbing; }
 
-    /* Each tile is absolutely positioned from screen center */
+    /* Each tile is absolutely positioned — shifted down to leave room for header */
     .tile {
       position: absolute;
-      left: 50%; top: 50%;
+      left: 50%; top: 55%;
       border-radius: 9999px;
       display: grid; place-items: center;
       will-change: transform, opacity;
