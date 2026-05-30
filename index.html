@@ -100,7 +100,7 @@
       display: flex; justify-content: center; align-items: center;
       padding: 28px 32px 16px;
       pointer-events: none;
-      z-index: 50;
+      z-index: 500;
     }
     .chrome > * { pointer-events: auto; }
     .brand {
@@ -128,7 +128,7 @@
     /* Each tile is absolutely positioned — shifted down to leave room for header */
     .tile {
       position: absolute;
-      left: 50%; top: 55%;
+      left: 50%; top: 50%;
       border-radius: 9999px;
       display: grid; place-items: center;
       will-change: transform, opacity;
@@ -219,7 +219,7 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--muted);
-      z-index: 30;
+      z-index: 500;
       pointer-events: none;
       transition: color 0.6s ease;
     }
@@ -235,7 +235,7 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--muted);
-      z-index: 30;
+      z-index: 500;
       pointer-events: none;
       opacity: 0.7;
       transition: color 0.6s ease;
@@ -254,7 +254,7 @@
       position: fixed; left: 0; right: 0; bottom: 42px;
       margin: 0 auto;
       width: 48px; height: 48px;
-      z-index: 30;
+      z-index: 500;
       pointer-events: auto;
       cursor: pointer;
       opacity: 0.7;
@@ -269,7 +269,7 @@
 
     /* Sun/Moon toggle pill */
     .theme-toggle {
-      position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 60;
+      position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 500;
       display: inline-flex; align-items: center; gap: 2px;
       padding: 3px;
       border-radius: 999px;
