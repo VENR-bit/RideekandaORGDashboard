@@ -22,20 +22,20 @@ const DEFAULT_TILES = [
     bg: 'radial-gradient(circle at 30% 25%, #a06a2a 0%, #5a3210 85%)',
     halo: 'rgba(217, 155, 74, 0.35)', fg: '#f6e0bd', icon: 'calendar' },
 
-  { id: 'library', label: 'Project Library Cafe', sub: 'Ongoing Project to build a Library Cafe in Rideekanda',
-    url: 'https://venr-bit.github.io/Library-Cafe/', size: 132, ring: 1,
-    bg: 'radial-gradient(circle at 30% 25%, #4a5a30 0%, #1e2812 85%)',
-    halo: 'rgba(160, 180, 100, 0.32)', fg: '#e8e6c8', icon: 'book' },
+  { id: 'threestory', label: 'Project ThreeStory Building', sub: 'Ongoing Construction of ThreeStory Building with Meditation Hall and Accommodations',
+    url: 'https://venr-bit.github.io/ThreeStory/', size: 132, ring: 1,
+    bg: 'radial-gradient(circle at 30% 25%, #5a4020 0%, #2a1c0c 85%)',
+    halo: 'rgba(200, 160, 80, 0.32)', fg: '#f0ddb8', icon: 'threeStory' },
 
   { id: 'requirements', label: 'Requirement Lists', sub: 'Necessary Items needed for Rideekanda',
     url: 'https://venr-bit.github.io/RequirementList/', size: 132, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #6a4e26 0%, #2e1f0c 85%)',
     halo: 'rgba(204, 160, 92, 0.32)', fg: '#f0e0bd', icon: 'list' },
 
-  { id: 'threestory', label: 'Project ThreeStory Building', sub: 'Ongoing Construction of ThreeStory Building with Meditation Hall and Accommodations',
-    url: 'https://venr-bit.github.io/ThreeStory/', size: 132, ring: 1,
-    bg: 'radial-gradient(circle at 30% 25%, #5a4020 0%, #2a1c0c 85%)',
-    halo: 'rgba(200, 160, 80, 0.32)', fg: '#f0ddb8', icon: 'threeStory' },
+  { id: 'library', label: 'Project Library Cafe', sub: 'Ongoing Project to build a Library Cafe in Rideekanda',
+    url: 'https://venr-bit.github.io/Library-Cafe/', size: 132, ring: 1,
+    bg: 'radial-gradient(circle at 30% 25%, #4a5a30 0%, #1e2812 85%)',
+    halo: 'rgba(160, 180, 100, 0.32)', fg: '#e8e6c8', icon: 'book' },
 
   { id: 'donate', label: 'Dāna | Donation', sub: 'Your contributions allow the monastery to center its programs and outreach',
     url: 'https://venr-bit.github.io/RideekandaDonate/', size: 132, ring: 1,
