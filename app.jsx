@@ -271,6 +271,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange, arrangeMod
     let momentumRaf = null;
     let lpTimer = null;
     let lpFired = false;
+    let lpStartX = 0, lpStartY = 0;
 
     const updateFocal = () => {
       const px = targetRef.current.x;
@@ -337,6 +338,8 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange, arrangeMod
       setDragging(true);
       el.setPointerCapture && el.setPointerCapture(e.pointerId);
       lpFired = false;
+      lpStartX = e.clientX;
+      lpStartY = e.clientY;
       const tileEl = e.target.closest('.tile');
       if (tileEl) {
         lpTimer = setTimeout(() => {
@@ -374,7 +377,8 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange, arrangeMod
       lastX = e.clientX; lastY = e.clientY;
       lastMoveTime = now;
       movedDist += Math.abs(dx) + Math.abs(dy);
-      if (movedDist > 10) clearLP();
+      const lpDx = e.clientX - lpStartX, lpDy = e.clientY - lpStartY;
+      if (lpDx * lpDx + lpDy * lpDy > 625) clearLP();
       const mix = 0.4;
       vx = vx * (1 - mix) + (dx / dt) * mix;
       vy = vy * (1 - mix) + (dy / dt) * mix;
