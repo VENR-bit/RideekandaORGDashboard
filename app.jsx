@@ -18,113 +18,130 @@ const DEFAULT_TILES = [
 
   // RING 1 — primary destinations
   { id: 'booking', label: 'Retreat Booking', sub: 'Reserve a stay for retreat',
-    url: 'https://venr-bit.github.io/BookYourStay/', size: 132, ring: 1,
+    url: 'https://venr-bit.github.io/BookYourStay/', size: 120, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #a06a2a 0%, #5a3210 85%)',
     halo: 'rgba(217, 155, 74, 0.35)', fg: '#f6e0bd', icon: 'calendar' },
 
   { id: 'threestory', label: 'Project ThreeStory Building', sub: 'Ongoing Construction of ThreeStory Building with Meditation Hall and Accommodations',
-    url: 'https://venr-bit.github.io/ThreeStory/', size: 132, ring: 1,
+    url: 'https://venr-bit.github.io/ThreeStory/', size: 120, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #5a4020 0%, #2a1c0c 85%)',
     halo: 'rgba(200, 160, 80, 0.32)', fg: '#f0ddb8', icon: 'threeStory' },
 
   { id: 'requirements', label: 'Requirement Lists', sub: 'Necessary Items needed for Rideekanda',
-    url: 'https://venr-bit.github.io/RequirementList/', size: 132, ring: 1,
+    url: 'https://venr-bit.github.io/RequirementList/', size: 120, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #6a4e26 0%, #2e1f0c 85%)',
     halo: 'rgba(204, 160, 92, 0.32)', fg: '#f0e0bd', icon: 'list' },
 
   { id: 'library', label: 'Project Library Cafe', sub: 'Ongoing Project to build a Library Cafe in Rideekanda',
-    url: 'https://venr-bit.github.io/Library-Cafe/', size: 132, ring: 1,
+    url: 'https://venr-bit.github.io/Library-Cafe/', size: 120, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #4a5a30 0%, #1e2812 85%)',
     halo: 'rgba(160, 180, 100, 0.32)', fg: '#e8e6c8', icon: 'book' },
 
   { id: 'donate', label: 'Dāna | Donation', sub: 'Your contributions allow the monastery to center its programs and outreach',
-    url: 'https://venr-bit.github.io/RideekandaDonate/', size: 132, ring: 1,
+    url: 'https://venr-bit.github.io/RideekandaDonate/', size: 120, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #7a3018 0%, #3a1808 85%)',
     halo: 'rgba(217, 130, 74, 0.32)', fg: '#f0c8a8', icon: 'hands' },
 
   // RING 2 — secondary links
   { id: 'photos', label: 'Photo Gallery', sub: 'Photo Gallery from Google Maps',
     url: 'https://venr-bit.github.io/RideekandaGallery/',
-    size: 82, ring: 2,
+    size: 120, ring: 2,
     bg: '#2a3624', fg: '#dee0c0', icon: 'image' },
   { id: 'map', label: 'Map', sub: 'Google location on Rideekanda',
-    url: 'https://maps.app.goo.gl/3Gb3nt8qaPqdSTgB9', size: 82, ring: 2,
+    url: 'https://maps.app.goo.gl/3Gb3nt8qaPqdSTgB9', size: 120, ring: 2,
     bg: '#2a2418', fg: '#e8d6b0', icon: 'pin' },
   { id: 'contact', label: 'Contact', sub: 'Contact Us on Email | WhatsApp | Tel',
-    url: 'https://www.rideekanda.com/contact/', size: 56, ring: 3,
+    url: 'https://www.rideekanda.com/contact/', size: 120, ring: 3,
     bg: '#2a261a', fg: '#d4c8a4', icon: 'mail' },
   { id: 'sinhala', label: 'සිංහල වෙබ්', sub: 'රිදීකන්ද වෙබ් පිටුවට සිංහලෙන්',
-    url: 'https://www.rideekanda.com/?lan=sn', size: 82, ring: 2,
+    url: 'https://www.rideekanda.com/?lan=sn', size: 120, ring: 2,
     bg: '#3a2a3a', fg: '#e0c8d4', icon: 'sinhala' },
   { id: 'suttas-en', label: 'Sutta Archive', sub: 'Reading Suttas in English',
-    url: 'https://suttacentral.net/?lang=en', size: 82, ring: 2,
+    url: 'https://suttacentral.net/?lang=en', size: 120, ring: 2,
     bg: '#4a3818', fg: '#ecd8a8', icon: 'scroll' },
   { id: 'suttas-si', label: 'සුත්‍ර පිටකය', sub: 'සුත්‍ර පිටකය සිංහලෙන්',
-    url: 'https://pitaka.lk/main/', size: 82, ring: 2,
+    url: 'https://pitaka.lk/main/', size: 120, ring: 2,
     bg: '#3a3018', fg: '#e6d4a8', icon: 'suttaPitaka' },
   { id: 'newsletter', label: 'Newsletter', sub: 'News and Events of Rideekanda',
-    url: 'https://www.rideekanda.com/news-and-events/', size: 82, ring: 2,
+    url: 'https://www.rideekanda.com/news-and-events/', size: 120, ring: 2,
     bg: '#2a2628', fg: '#d4ccc8', icon: 'feather' },
   { id: 'retreat-program', label: 'Retreat Program', sub: 'Details of Ongoing Retreats',
-    url: 'https://www.rideekanda.com/retreat-center/', size: 82, ring: 2,
+    url: 'https://www.rideekanda.com/retreat-center/', size: 120, ring: 2,
     bg: '#4a2818', fg: '#fbdcc0', icon: 'retreat' },
   { id: 'monastery', label: 'Monastery', sub: 'About Monastery',
-    url: 'https://www.rideekanda.com/monastery/', size: 82, ring: 2,
+    url: 'https://www.rideekanda.com/monastery/', size: 120, ring: 2,
     bg: '#2a3620', fg: '#dce0c4', icon: 'tree' },
   { id: 'reviews', label: 'Reviews', sub: 'Reviews on Rideekanda',
     url: 'https://venr-bit.github.io/RideekandaReviews/',
-    size: 132, ring: 1,
+    size: 120, ring: 1,
     bg: 'radial-gradient(circle at 30% 25%, #4a3818 0%, #1e1608 85%)',
     halo: 'rgba(200, 170, 80, 0.32)', fg: '#e6c888', icon: 'star' },
 
   // RING 3 — tertiary / accent
   { id: 'daily-routine', label: 'Daily Routine', sub: 'Daily Routine of the Rideekanda',
-    url: 'https://www.rideekanda.com/resources/Daily_Routine_Schedule.pdf', size: 56, ring: 3,
+    url: 'https://www.rideekanda.com/resources/Daily_Routine_Schedule.pdf', size: 120, ring: 3,
     bg: '#1f2a18', fg: '#b8c8a0', icon: 'dailyRoutine' },
   { id: 'admin', label: 'Admin', sub: 'Admin Panel',
-    url: 'https://rideekanda.org/admin.html', size: 56, ring: 3,
+    url: 'https://rideekanda.org/admin.html', size: 120, ring: 3,
     bg: '#252028', fg: '#b0a8b0', icon: 'settings' },
   { id: 'facebook', label: 'Facebook', sub: '/rideekandaforest',
-    url: 'https://www.facebook.com/rideekandaforest', size: 56, ring: 3,
+    url: 'https://www.facebook.com/rideekandaforest', size: 120, ring: 3,
     bg: '#1c2238', fg: '#b0c0e0', icon: 'facebook' },
   { id: 'instagram', label: 'Instagram', sub: '/rideekanda.monastery/',
-    url: 'https://www.instagram.com/rideekanda.monastery/', size: 56, ring: 3,
+    url: 'https://www.instagram.com/rideekanda.monastery/', size: 120, ring: 3,
     bg: '#38202a', fg: '#e0b0c0', icon: 'instagram' },
   { id: 'google-profile', label: 'Google Profile', sub: 'Google Profiles',
-    url: 'https://share.google/gXH0xqwl9PWo2iQOd', size: 56, ring: 3,
+    url: 'https://share.google/gXH0xqwl9PWo2iQOd', size: 120, ring: 3,
     bg: '#2a2a2a', fg: '#d4d4d4', icon: 'google' },
   { id: 'dhamma', label: 'Dhamma Talks', sub: 'Video Recordings of Teachings',
-    url: 'https://drive.google.com/drive/folders/1ITnaTnLj3Ntx9erkMFhGeSMVdWy9mU7t?usp=drive_link', size: 56, ring: 3,
+    url: 'https://drive.google.com/drive/folders/1ITnaTnLj3Ntx9erkMFhGeSMVdWy9mU7t?usp=drive_link', size: 120, ring: 3,
     bg: '#3a2818', fg: '#e6d4ae', icon: 'lotus' },
   { id: 'audio', label: 'Audio Library', sub: 'Guided Audio Recording of Jhāna Meditation',
-    url: 'https://drive.google.com/drive/folders/10QOiPGjkCcWODUnI-kKiNLqWdcpSpMRq?usp=drive_link', size: 56, ring: 3,
+    url: 'https://drive.google.com/drive/folders/10QOiPGjkCcWODUnI-kKiNLqWdcpSpMRq?usp=drive_link', size: 120, ring: 3,
     bg: '#2a2018', fg: '#d4c4a0', icon: 'wave' },
   { id: 'youtube', label: 'YouTube', sub: '/RideekandaForestMonastery',
-    url: 'https://youtube.com/c/RideekandaForestMonastery', size: 56, ring: 3,
+    url: 'https://youtube.com/c/RideekandaForestMonastery', size: 120, ring: 3,
     bg: '#8a2a18', fg: '#fbe2cb', icon: 'play' },
 ];
 window.DEFAULT_TILES = DEFAULT_TILES;
 
 function buildLayout(tilesData, density) {
-  const R1 = 240 * density;
-  const R2 = 410 * density;
-  const R3 = 540 * density;
+  const D = 134;
+  const sqrt3h = Math.sqrt(3) / 2;
   const tiles = tilesData.map(t => ({ ...t, x: 0, y: 0 }));
-  const ring1 = tiles.filter(t => t.ring === 1);
-  const ring2 = tiles.filter(t => t.ring === 2);
-  const ring3 = tiles.filter(t => t.ring === 3);
-  ring1.forEach((t, i) => {
-    const a = (i / ring1.length) * Math.PI * 2 - Math.PI / 2;
-    t.x = Math.cos(a) * R1; t.y = Math.sin(a) * R1;
+
+  const hexToPixel = (q, r) => ({
+    x: D * (q + r / 2),
+    y: D * r * sqrt3h,
   });
-  ring2.forEach((t, i) => {
-    const a = (i / ring2.length) * Math.PI * 2 - Math.PI / 2 + Math.PI / ring2.length;
-    t.x = Math.cos(a) * R2; t.y = Math.sin(a) * R2;
-  });
-  ring3.forEach((t, i) => {
-    const a = (i / ring3.length) * Math.PI * 2 - Math.PI / 2 + Math.PI / ring3.length / 2;
-    t.x = Math.cos(a) * R3; t.y = Math.sin(a) * R3;
-  });
+
+  const hexRing = (n) => {
+    if (n === 0) return [{ q: 0, r: 0 }];
+    const dirs = [[1,0],[0,1],[-1,1],[-1,0],[0,-1],[1,-1]];
+    const pos = [];
+    let q = 0, r = -n;
+    for (let d = 0; d < 6; d++)
+      for (let s = 0; s < n; s++) {
+        pos.push({ q, r });
+        q += dirs[d][0]; r += dirs[d][1];
+      }
+    return pos;
+  };
+
+  const distribute = (list, positions) => {
+    if (!list.length) return;
+    const step = positions.length / list.length;
+    list.forEach((t, i) => {
+      const p = hexToPixel(positions[Math.floor(i * step)].q, positions[Math.floor(i * step)].r);
+      t.x = p.x; t.y = p.y;
+    });
+  };
+
+  distribute(tiles.filter(t => t.ring === 0), hexRing(0));
+  distribute(tiles.filter(t => t.ring === 1), hexRing(1));
+  distribute(tiles.filter(t => t.ring === 2), hexRing(2));
+  distribute(tiles.filter(t => t.ring === 3), hexRing(3));
+
   return tiles;
 }
 
@@ -218,8 +235,16 @@ const Tile = React.memo(function Tile({ tile, x, y, scale, opacity, isFocal, onP
 // Honeycomb stage — owns the pan state and dispatches drag /
 // click events. Math runs once per frame via panRef in render.
 // ──────────────────────────────────────────────────────────────
-function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
+function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange, arrangeMode, onArrangeModeChange, onSwapTiles }) {
   const stageRef = useRef(null);
+  const arrangeModeRef = useRef(false);
+  const arrangeDragRef = useRef(null);
+  const longPressRef = useRef(null);
+  const onSwapTilesRef = useRef(onSwapTiles);
+  const onArrangeModeRef = useRef(onArrangeModeChange);
+  useEffect(() => { arrangeModeRef.current = arrangeMode; }, [arrangeMode]);
+  useEffect(() => { onSwapTilesRef.current = onSwapTiles; }, [onSwapTiles]);
+  useEffect(() => { onArrangeModeRef.current = onArrangeModeChange; }, [onArrangeModeChange]);
   const tiles = useMemo(() => buildLayout(tilesData, tweaks.density), [tilesData, tweaks.density]);
   const { pan, setTarget, nudgeTarget, snapTo, panRef, targetRef } = useLerpedPan(0.16);
   const [dragging, setDragging] = useState(false);
@@ -232,7 +257,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
   const onAdminToggleRef = useRef(onAdminToggle);
   onAdminToggleRef.current = onAdminToggle;
 
-  // Drag handling
+  // Drag handling (normal pan + arrange-mode tile drag)
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return;
@@ -241,10 +266,11 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
     let movedDist = 0;
     let pointerId = null;
     let focalAtDown = null;
-    // Velocity tracking for momentum
     let vx = 0, vy = 0;
     let lastMoveTime = 0;
     let momentumRaf = null;
+    let lpTimer = null;
+    let lpFired = false;
 
     const updateFocal = () => {
       const px = targetRef.current.x;
@@ -259,21 +285,87 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
       if (best) setFocalId(best.id);
     };
 
+    const clearLP = () => {
+      if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
+    };
+
+    const removeGhost = () => {
+      const g = document.querySelector('.arrange-ghost');
+      if (g) g.remove();
+      el.querySelectorAll('.drag-source,.drop-target').forEach(t => {
+        t.classList.remove('drag-source', 'drop-target');
+      });
+    };
+
     const onDown = (e) => {
       if (e.button !== undefined && e.button !== 0) return;
-      // Cancel any ongoing momentum
       if (momentumRaf) { cancelAnimationFrame(momentumRaf); momentumRaf = null; }
-      active = true;
       pointerId = e.pointerId;
       lastX = e.clientX; lastY = e.clientY;
       movedDist = 0;
+
+      // ── Arrange mode: pick up a tile ──
+      if (arrangeModeRef.current) {
+        const tileEl = e.target.closest('.tile');
+        if (!tileEl) return;
+        const rect = tileEl.getBoundingClientRect();
+        const ghost = tileEl.cloneNode(true);
+        ghost.className = 'tile arrange-ghost';
+        ghost.style.cssText = 'position:fixed;pointer-events:none;z-index:10000;'
+          + 'width:' + rect.width + 'px;height:' + rect.height + 'px;'
+          + 'left:' + rect.left + 'px;top:' + rect.top + 'px;margin:0;';
+        document.body.appendChild(ghost);
+        tileEl.classList.add('drag-source');
+        arrangeDragRef.current = {
+          id: tileEl.dataset.id,
+          origEl: tileEl,
+          ghost: ghost,
+          startX: e.clientX,
+          startY: e.clientY,
+          origLeft: rect.left,
+          origTop: rect.top,
+        };
+        el.setPointerCapture && el.setPointerCapture(e.pointerId);
+        return;
+      }
+
+      // ── Normal mode ──
+      active = true;
       vx = 0; vy = 0;
       lastMoveTime = Date.now();
       focalAtDown = focalIdRef.current;
       setDragging(true);
       el.setPointerCapture && el.setPointerCapture(e.pointerId);
+      lpFired = false;
+      const tileEl = e.target.closest('.tile');
+      if (tileEl) {
+        lpTimer = setTimeout(() => {
+          lpFired = true;
+          active = false;
+          setDragging(false);
+          if (onArrangeModeRef.current) onArrangeModeRef.current(true);
+          if (navigator.vibrate) navigator.vibrate(50);
+        }, 600);
+      }
     };
+
     const onMove = (e) => {
+      // ── Arrange drag ──
+      if (arrangeModeRef.current && arrangeDragRef.current) {
+        const d = arrangeDragRef.current;
+        const dx = e.clientX - d.startX;
+        const dy = e.clientY - d.startY;
+        d.ghost.style.left = (d.origLeft + dx) + 'px';
+        d.ghost.style.top = (d.origTop + dy) + 'px';
+        el.querySelectorAll('.drop-target').forEach(t => t.classList.remove('drop-target'));
+        const hit = document.elementFromPoint(e.clientX, e.clientY);
+        const hitTile = hit && hit.closest('.tile');
+        if (hitTile && hitTile.dataset.id !== d.id) {
+          hitTile.classList.add('drop-target');
+        }
+        return;
+      }
+
       if (!active) return;
       const now = Date.now();
       const dt = Math.max(now - lastMoveTime, 1);
@@ -282,30 +374,54 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
       lastX = e.clientX; lastY = e.clientY;
       lastMoveTime = now;
       movedDist += Math.abs(dx) + Math.abs(dy);
-      // Track velocity (pixels per ms, smoothed)
+      if (movedDist > 10) clearLP();
       const mix = 0.4;
       vx = vx * (1 - mix) + (dx / dt) * mix;
       vy = vy * (1 - mix) + (dy / dt) * mix;
-      // Direct: bypass the lerp during drag so dragging feels 1:1
       targetRef.current = {
         x: targetRef.current.x + dx,
         y: targetRef.current.y + dy,
       };
-      // also push pan immediately so it doesn't lag visibly
       panRef.current = {
         x: panRef.current.x + dx * 0.92,
         y: panRef.current.y + dy * 0.92,
       };
     };
+
     const onUp = (e) => {
+      clearLP();
+
+      // ── Arrange drop ──
+      if (arrangeModeRef.current && arrangeDragRef.current) {
+        const d = arrangeDragRef.current;
+        removeGhost();
+        const allTiles = el.querySelectorAll('.tile');
+        let nearest = null, nearestDist = Infinity;
+        allTiles.forEach(t => {
+          if (t.dataset.id === d.id) return;
+          const r = t.getBoundingClientRect();
+          const cx = r.left + r.width / 2;
+          const cy = r.top + r.height / 2;
+          const dist = Math.sqrt((e.clientX - cx) ** 2 + (e.clientY - cy) ** 2);
+          if (dist < nearestDist && dist < 90) {
+            nearestDist = dist;
+            nearest = t.dataset.id;
+          }
+        });
+        if (nearest && onSwapTilesRef.current) {
+          onSwapTilesRef.current(d.id, nearest);
+        }
+        arrangeDragRef.current = null;
+        return;
+      }
+
+      if (lpFired) { lpFired = false; return; }
       if (!active) return;
       active = false;
       setDragging(false);
       if (movedDist > 14) {
-        // Apply momentum — coast with decaying velocity, then snap
         const speed = Math.sqrt(vx * vx + vy * vy);
         if (speed > 0.15) {
-          // Scale velocity to pixels per frame (~16ms)
           let mvx = vx * 16;
           let mvy = vy * 16;
           const friction = 0.92;
@@ -360,11 +476,13 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
     window.addEventListener('pointerup', onUp);
     window.addEventListener('pointercancel', onUp);
     return () => {
+      clearLP();
       el.removeEventListener('pointerdown', onDown);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onUp);
       if (momentumRaf) cancelAnimationFrame(momentumRaf);
+      removeGhost();
     };
   }, [tiles, targetRef, panRef]);
 
@@ -393,7 +511,10 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
       else if (e.key === 'ArrowRight') nudgeTarget(-step, 0);
       else if (e.key === 'ArrowUp') nudgeTarget(0, step);
       else if (e.key === 'ArrowDown') nudgeTarget(0, -step);
-      else if (e.key === 'Escape' || e.key === 'Home') { setTarget(0, 0); setFocalId('home'); }
+      else if (e.key === 'Escape' || e.key === 'Home') {
+        if (arrangeModeRef.current) { onArrangeModeRef.current(false); return; }
+        setTarget(0, 0); setFocalId('home');
+      }
       else if (e.key === 'Enter') {
         const t = tiles.find(x => x.id === focalIdRef.current);
         if (t && t.url && !t.url.startsWith('#')) window.open(t.url, '_blank');
@@ -490,7 +611,7 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
 
   return (
     <>
-      <div ref={stageRef} className={'stage' + (dragging ? ' dragging' : '')}>
+      <div ref={stageRef} className={'stage' + (dragging ? ' dragging' : '') + (arrangeMode ? ' arrange-mode' : '')}>
         {computed.map(({ tile, x, y, scale, opacity }) => (
           <Tile
             key={tile.id}
@@ -505,6 +626,12 @@ function Honeycomb({ tweaks, tilesData, onAdminToggle, onFocalChange }) {
         ))}
       </div>
 
+      {arrangeMode && (
+        <>
+          <button className="arrange-done" onClick={() => onArrangeModeChange(false)}>Done</button>
+          <div className="arrange-hint">Drag tiles to rearrange</div>
+        </>
+      )}
     </>
   );
 }
@@ -532,6 +659,7 @@ function App() {
 
   const [tiles, tileActions] = useTiles();
   const [adminMode, setAdminMode] = useState(false);
+  const [arrangeMode, setArrangeMode] = useState(false);
   const [focal, setFocal] = useState({ tile: null, isCenter: false });
   const handleFocalChange = useCallback((tile, isCenter) => {
     setFocal({ tile, isCenter });
@@ -573,7 +701,8 @@ function App() {
 
   return (
     <>
-      <Honeycomb tweaks={t} tilesData={tiles} onAdminToggle={handleAdminToggle} onFocalChange={handleFocalChange} />
+      <Honeycomb tweaks={t} tilesData={tiles} onAdminToggle={handleAdminToggle} onFocalChange={handleFocalChange}
+        arrangeMode={arrangeMode} onArrangeModeChange={setArrangeMode} onSwapTiles={tileActions.swapTiles} />
       <FocalReadout tile={focal.tile} isCenter={focal.isCenter} />
       <AdminPanel open={adminMode} onClose={() => setAdminMode(false)}
                   tiles={tiles} actions={tileActions} />

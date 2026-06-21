@@ -4,7 +4,7 @@
 
 const ADMIN_PIN = '92424';
 const STORAGE_KEY = 'rideekanda-tiles';
-const RING_DEFAULTS = { 0: 178, 1: 132, 2: 82, 3: 56 };
+const RING_DEFAULTS = { 0: 178, 1: 120, 2: 120, 3: 120 };
 
 function useTiles() {
   const [tiles, setTiles] = React.useState(() => {
@@ -53,12 +53,42 @@ function useTiles() {
     return true;
   };
 
+  const swapTiles = (idA, idB) => {
+    const next = [...tiles];
+    const iA = next.findIndex(t => t.id === idA);
+    const iB = next.findIndex(t => t.id === idB);
+    if (iA < 0 || iB < 0 || iA === iB) return;
+    const { ring: rA, size: sA } = next[iA];
+    const { ring: rB, size: sB } = next[iB];
+    next[iA] = { ...next[iA], ring: rB, size: sB };
+    next[iB] = { ...next[iB], ring: rA, size: sA };
+    [next[iA], next[iB]] = [next[iB], next[iA]];
+    persist(next);
+  };
+
+  const moveTile = (id, direction) => {
+    const idx = tiles.findIndex(t => t.id === id);
+    if (idx < 0) return;
+    const tile = tiles[idx];
+    const ringTiles = tiles.filter(t => t.ring === tile.ring);
+    const posInRing = ringTiles.findIndex(t => t.id === id);
+    const swapIdx = direction === 'up' ? posInRing - 1 : posInRing + 1;
+    if (swapIdx < 0 || swapIdx >= ringTiles.length) return;
+    const swapTile = ringTiles[swapIdx];
+    const fullIdxA = tiles.findIndex(t => t.id === id);
+    const fullIdxB = tiles.findIndex(t => t.id === swapTile.id);
+    const next = [...tiles];
+    next[fullIdxA] = tiles[fullIdxB];
+    next[fullIdxB] = tiles[fullIdxA];
+    persist(next);
+  };
+
   const resetTiles = () => {
     localStorage.removeItem(STORAGE_KEY);
     setTiles(window.DEFAULT_TILES);
   };
 
-  return [tiles, { addTile, updateTile, removeTile, resetTiles }];
+  return [tiles, { addTile, updateTile, removeTile, moveTile, swapTiles, resetTiles }];
 }
 
 const __ADMIN_STYLE = `
@@ -95,6 +125,11 @@ const __ADMIN_STYLE = `
   .adm-del{appearance:none;border:0;background:transparent;color:rgba(200,60,60,.6);
     font-size:14px;cursor:pointer;padding:2px 4px;border-radius:4px;flex-shrink:0;line-height:1}
   .adm-del:hover{background:rgba(200,60,60,.1);color:rgba(200,60,60,.9)}
+  .adm-move{appearance:none;border:0;background:rgba(0,0,0,.06);color:rgba(41,38,27,.5);
+    font-size:11px;cursor:pointer;padding:2px 5px;border-radius:4px;flex-shrink:0;line-height:1}
+  .adm-move:hover{background:rgba(0,0,0,.12);color:rgba(41,38,27,.8)}
+  .adm-move:disabled{opacity:.25;cursor:default}
+  .adm-pos-controls{display:flex;gap:4px;align-items:center;flex-shrink:0}
   .adm-editor{padding:8px 0 4px;display:flex;flex-direction:column;gap:8px;
     border-top:1px solid rgba(0,0,0,.06);margin-top:4px}
   .adm-actions{display:flex;gap:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.08)}
@@ -211,14 +246,18 @@ function AdminPanel({ open, onClose, tiles, actions }) {
           {grouped.map(({ ring, tiles: ringTiles }) => (
             <React.Fragment key={ring}>
               <div className="adm-ring-label">Ring {ring} — {RING_NAMES[ring]}</div>
-              {ringTiles.map(tile => (
+              {ringTiles.map((tile, idx) => (
                 <TileRow
                   key={tile.id}
                   tile={tile}
                   editing={editingId === tile.id}
                   iconKeys={iconKeys}
+                  isFirst={idx === 0}
+                  isLast={idx === ringTiles.length - 1}
                   onToggleEdit={() => setEditingId(editingId === tile.id ? null : tile.id)}
                   onUpdate={(changes) => actions.updateTile(tile.id, changes)}
+                  onMoveUp={() => actions.moveTile(tile.id, 'up')}
+                  onMoveDown={() => actions.moveTile(tile.id, 'down')}
                   onDelete={() => {
                     if (tile.ring === 0) {
                       alert('Cannot delete the center tile.');
@@ -249,11 +288,17 @@ function AdminPanel({ open, onClose, tiles, actions }) {
   );
 }
 
-function TileRow({ tile, editing, iconKeys, onToggleEdit, onUpdate, onDelete }) {
+function TileRow({ tile, editing, iconKeys, isFirst, isLast, onToggleEdit, onUpdate, onMoveUp, onMoveDown, onDelete }) {
   const Icon = Icons[tile.icon] || Icons.list;
   return (
     <div>
       <div className={'adm-tile-row' + (editing ? ' active' : '')} onClick={onToggleEdit}>
+        <div className="adm-pos-controls">
+          <button className="adm-move" disabled={isFirst} title="Move up"
+                  onClick={(e) => { e.stopPropagation(); onMoveUp(); }}>▲</button>
+          <button className="adm-move" disabled={isLast} title="Move down"
+                  onClick={(e) => { e.stopPropagation(); onMoveDown(); }}>▼</button>
+        </div>
         <div className="adm-tile-icon" style={{ background: tile.bg, color: tile.fg }}>
           <Icon size={14} />
         </div>
@@ -261,7 +306,7 @@ function TileRow({ tile, editing, iconKeys, onToggleEdit, onUpdate, onDelete }) 
           <div className="adm-tile-name">{tile.label}</div>
           <div className="adm-tile-url">{tile.url}</div>
         </div>
-        <span className="adm-ring-badge">R{tile.ring}</span>
+        <span className="adm-ring-badge">R{tile.ring} · {tile.size}px</span>
         <button className="adm-del" title="Delete tile"
                 onClick={(e) => { e.stopPropagation(); onDelete(); }}>×</button>
       </div>
